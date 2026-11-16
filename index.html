@@ -3,9 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Repsody</title>
-<meta name="apple-mobile-web-app-title" content="Repsody">
-<meta name="application-name" content="Repsody">
+<title>Rapsody</title>
+<meta name="apple-mobile-web-app-title" content="Rapsody">
+<meta name="application-name" content="Rapsody">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -119,6 +121,23 @@ td.r,th.r{text-align:right}
   .form-grid .full{grid-column:1/-1}
   .sets-head,.set{grid-template-columns:24px 1fr 1fr 62px 32px;gap:6px}
 }
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:12px}
+.cal-grid .wd{font-size:12px;font-weight:600;color:var(--muted);text-align:center;text-transform:uppercase;letter-spacing:.3px;padding-bottom:2px}
+.cal-day{aspect-ratio:1;min-height:0;padding:0;border:0;border-radius:8px;background:var(--bg);color:var(--ink);font-family:var(--display);font-weight:700;font-size:20px;font-variant-numeric:tabular-nums;display:flex;align-items:center;justify-content:center;position:relative}
+.cal-day:hover{box-shadow:inset 0 0 0 1px var(--muted)}
+.cal-day.has{background:var(--accent);color:var(--accent-ink)}
+.cal-day.today{box-shadow:inset 0 0 0 2px var(--ink)}
+.cal-day.sel{outline:3px solid var(--ink);outline-offset:1px}
+.cal-day.future{color:var(--muted)}
+.cal-day .bdot{position:absolute;bottom:5px;left:50%;width:5px;height:5px;margin-left:-2.5px;border-radius:50%;background:currentColor;opacity:.7}
+.cal-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.cal-head h2{text-align:center;flex:1}
+.cal-head button{font-family:var(--display);font-size:26px;line-height:1;width:44px;padding:0}
+.cal-stats{display:flex;gap:8px;margin-top:12px}
+.cal-stats .tile{flex:1}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;font-size:12px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
 .toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:12px 16px;border-radius:10px;font-weight:600;font-size:15px;max-width:calc(100% - 32px);box-shadow:0 6px 24px rgba(0,0,0,.25);z-index:20}
 .toast[hidden]{display:none}
 @media (prefers-reduced-motion:no-preference){
@@ -131,7 +150,7 @@ td.r,th.r{text-align:right}
 <div class="wrap">
   <header class="top">
     <div class="brand">
-      <h1>Dziennik<br>siłowni</h1>
+      <h1>Rapsody</h1>
       <span class="sync" id="sync" title=""><i></i><span>Zapis na tym urządzeniu</span></span>
     </div>
     <div class="plates-stripe" aria-hidden="true">
@@ -500,18 +519,68 @@ function viewPostep(){
   </section>`;
 }
 
+const MONTHS=['Styczeń','Luty','Marzec','Kwiecień','Maj','Czerwiec','Lipiec','Sierpień','Wrzesień','Październik','Listopad','Grudzień'];
+const MONTHS_LOC=['styczniu','lutym','marcu','kwietniu','maju','czerwcu','lipcu','sierpniu','wrześniu','październiku','listopadzie','grudniu'];
+let calMonth=today().slice(0,7), calSel=null;
+function histCard(w){
+  let vol=0;
+  const items=(w.exercises||[]).map(e=>{const s=validSets(e.sets);s.forEach(x=>vol+=x.w*x.r);return `<li>${esc(e.name)} <span class="num">· ${s.map(setTxt).join(', ')}</span></li>`}).join('');
+  return `<article class="card hist-item">
+    <div class="row between"><h3>${dLong(w.date)}</h3><span class="small muted num">${fmt(vol,0)} kg</span></div>
+    <ul>${items}</ul>
+    <div class="row"><button data-action="edit-workout" data-id="${esc(w.id)}">Popraw</button><button class="ghost" data-action="del-workout" data-id="${esc(w.id)}">Usuń</button></div>
+  </article>`;
+}
+function weekStreak(){
+  const weeks=new Set(state.workouts.map(w=>weekStart(w.date)));
+  const d=parseD(weekStart(today()));
+  if(!weeks.has(ymd(d)))d.setDate(d.getDate()-7);
+  let n=0;while(weeks.has(ymd(d))){n++;d.setDate(d.getDate()-7)}
+  return n;
+}
+function calendarCard(){
+  const [y,m]=calMonth.split('-').map(Number);
+  const first=new Date(y,m-1,1),days=new Date(y,m,0).getDate(),offset=(first.getDay()+6)%7;
+  const td=today();
+  const byDay={};state.workouts.forEach(w=>{byDay[w.date]=(byDay[w.date]||0)+1});
+  const bodyDays=new Set(state.body.map(b=>b.date));
+  let cells=['Pn','Wt','Śr','Cz','Pt','Sb','Nd'].map(d=>`<div class="wd" aria-hidden="true">${d}</div>`).join('');
+  for(let i=0;i<offset;i++)cells+='<div></div>';
+  let monthCount=0;
+  for(let d=1;d<=days;d++){
+    const ds=y+'-'+pad(m)+'-'+pad(d),n=byDay[ds]||0;monthCount+=n;
+    const cls=['cal-day',n?'has':'',ds===td?'today':'',ds===calSel?'sel':'',ds>td?'future':''].filter(Boolean).join(' ');
+    cells+=`<button class="${cls}" data-action="cal-day" data-date="${ds}" aria-pressed="${ds===calSel}" aria-label="${d}.${pad(m)}${n?', '+(n>1?n+' treningi':'trening'):''}${bodyDays.has(ds)?', pomiar ciała':''}">${d}${bodyDays.has(ds)?'<i class="bdot"></i>':''}</button>`;
+  }
+  const streak=weekStreak();
+  return `<section class="card">
+    <div class="cal-head">
+      <button data-action="cal-prev" aria-label="Poprzedni miesiąc">‹</button>
+      <h2>${MONTHS[m-1]} ${y}</h2>
+      <button data-action="cal-next" aria-label="Następny miesiąc">›</button>
+    </div>
+    <div class="cal-grid">${cells}</div>
+    <div class="legend"><span><i style="background:var(--accent)"></i>Trening</span><span><i style="box-shadow:inset 0 0 0 2px var(--ink)"></i>Dziś</span><span><b aria-hidden="true" style="font-size:18px;line-height:0">•</b>Pomiar ciała</span></div>
+    <div class="cal-stats">
+      <div class="tile"><div class="k">Treningi w ${MONTHS_LOC[m-1]}</div><div class="v">${monthCount}</div></div>
+      <div class="tile"><div class="k">Tygodnie z rzędu</div><div class="v">${streak}<small>${streak===1?'tydzień':(streak%10>=2&&streak%10<=4&&(streak%100<10||streak%100>=20))?'tygodnie':'tygodni'}</small></div></div>
+    </div>
+  </section>`;
+}
 function viewHistoria(){
-  if(!state.workouts.length)return `<section class="card empty"><h2>Brak treningów</h2><p>Zapisane treningi pojawią się tutaj. Możesz je potem poprawić albo usunąć.</p><button data-action="goto" data-tab="trening">Zacznij trening</button></section>`;
-  const list=state.workouts.slice().sort((a,b)=>a.date<b.date?1:a.date>b.date?-1:0);
-  return list.map(w=>{
-    let vol=0;
-    const items=(w.exercises||[]).map(e=>{const s=validSets(e.sets);s.forEach(x=>vol+=x.w*x.r);return `<li>${esc(e.name)} <span class="num">· ${s.map(setTxt).join(', ')}</span></li>`}).join('');
-    return `<article class="card hist-item">
-      <div class="row between"><h3>${dLong(w.date)}</h3><span class="small muted num">${fmt(vol,0)} kg</span></div>
-      <ul>${items}</ul>
-      <div class="row"><button data-action="edit-workout" data-id="${esc(w.id)}">Popraw</button><button class="ghost" data-action="del-workout" data-id="${esc(w.id)}">Usuń</button></div>
-    </article>`;
-  }).join('');
+  let out=calendarCard();
+  if(calSel){
+    const list=state.workouts.filter(w=>w.date===calSel);
+    out+=`<div class="row between"><h2 style="font-family:var(--display);text-transform:uppercase;margin:6px 0 0;font-size:24px">${dLong(calSel)}</h2><button class="ghost" data-action="cal-clear">Pokaż cały miesiąc</button></div>`;
+    out+=list.length?list.map(histCard).join(''):`<section class="card empty"><p>${calSel>today()?'Ten dzień jeszcze przed Tobą.':'Tego dnia nie było treningu.'}</p>${calSel<=today()?`<button data-action="train-on" data-date="${calSel}">Dopisz trening z tego dnia</button>`:''}</section>`;
+    return out;
+  }
+  if(!state.workouts.length)return out+`<section class="card empty"><h2>Brak treningów</h2><p>Zapisane treningi pojawią się w kalendarzu i tutaj. Możesz je potem poprawić albo usunąć.</p><button data-action="goto" data-tab="trening">Zacznij trening</button></section>`;
+  const [y,m]=calMonth.split('-').map(Number);
+  const list=state.workouts.filter(w=>w.date.slice(0,7)===calMonth).sort((a,b)=>a.date<b.date?1:a.date>b.date?-1:0);
+  out+=`<h2 style="font-family:var(--display);text-transform:uppercase;margin:6px 0 0;font-size:24px">Treningi w ${MONTHS_LOC[m-1]}</h2>`;
+  out+=list.length?list.map(histCard).join(''):`<section class="card empty"><p>W tym miesiącu nie ma jeszcze treningów.</p></section>`;
+  return out;
 }
 
 function viewCialo(){
@@ -615,6 +684,10 @@ app.addEventListener('click',async e=>{
   else if(a==='demo-on'){demo=true;render()}
   else if(a==='demo-off'){demo=false;render()}
   else if(a==='goto'){setTab(b.dataset.tab)}
+  else if(a==='cal-prev'||a==='cal-next'){const [y,m]=calMonth.split('-').map(Number);const d=new Date(y,m-1+(a==='cal-next'?1:-1),1);calMonth=d.getFullYear()+'-'+pad(d.getMonth()+1);calSel=null;render()}
+  else if(a==='cal-day'){calSel=calSel===b.dataset.date?null:b.dataset.date;render()}
+  else if(a==='cal-clear'){calSel=null;render()}
+  else if(a==='train-on'){if(draft.id)draft=newDraft();draft.date=b.dataset.date;persistDraft();setTab('trening')}
   else if(a==='edit-workout'){
     const w=state.workouts.find(x=>x.id===b.dataset.id);if(!w)return;
     draft={id:w.id,date:w.date,exercises:(w.exercises||[]).map(e=>({name:e.name,sets:validSets(e.sets).map(s=>({w:fmt(s.w,2),r:String(s.r)}))}))};
