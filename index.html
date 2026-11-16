@@ -427,6 +427,40 @@ svg.fig .m.h4{fill:var(--accent);fill-opacity:1}
 .mm-bar i{display:block;height:100%;background:var(--accent);border-radius:5px}
 .mm-bar i.h0{background:transparent}.mm-bar i.h1{opacity:.35}.mm-bar i.h2{opacity:.55}.mm-bar i.h3{opacity:.8}
 .mm-c{text-align:right;font-weight:600}
+body.in-session header.top,body.in-session nav.tabs{display:none}
+body.in-session .wrap{padding-top:calc(var(--ssh,140px) + 14px)}
+.timer.sess{top:0;bottom:auto;border-top:0;border-bottom:1px solid var(--line);box-shadow:0 6px 20px rgba(0,0,0,.14);padding-top:env(safe-area-inset-top)}
+.timer.sess .tb-row{padding-bottom:10px}
+.ss-top{max-width:600px;margin:0 auto;display:grid;grid-template-columns:44px 1fr 44px;align-items:center;gap:8px;padding:10px 16px 6px}
+.ss-min{width:44px;height:44px;padding:0;border-radius:50%;font-size:22px;line-height:1;background:var(--bg)}
+.ss-mid{display:flex;flex-direction:column;align-items:center;text-align:center}
+.ss-title{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--accent);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ss-clock{font-family:var(--display);font-weight:800;font-size:40px;line-height:1}
+.ss-rest{border-top:1px solid var(--line)}
+.timer.sess.done .ss-rest{background:var(--accent)}
+.timer.done:not(.sess){background:var(--accent)}
+.timer.sess.done{background:var(--surface)}
+.tb-lbl{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:var(--muted)}
+.timer.run .tb-row{justify-content:space-between}
+.timer.mini .tb-row{justify-content:space-between}
+.mini-dot{width:10px;height:10px;border-radius:50%;background:var(--accent);flex:none}
+@media (prefers-reduced-motion:no-preference){.mini-dot{animation:pulse 1.4s ease-in-out infinite}@keyframes pulse{50%{opacity:.3}}}
+.mini-txt{flex:1;display:flex;flex-direction:column;font-size:14px;line-height:1.25}
+.mini-txt b{font-size:12px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted)}
+.mini-txt .num{font-weight:700}
+.hero-day{display:flex;flex-direction:column;gap:6px;border:2px solid var(--accent)}
+.hero-title{font-size:34px!important;line-height:1}
+.hero-list{margin:6px 0 10px;padding:0 0 0 20px;display:flex;flex-direction:column;gap:6px}
+.hero-list li{padding-left:2px}
+.hero-list .hl-n{display:block;font-weight:600}
+.hero-list .hl-s{display:block;font-size:13px;color:var(--muted)}
+.finish-zone{margin-top:6px}
+.sum-card{border:2px solid var(--good)}
+.sum-card h2{color:var(--good)}
+.timer.sess .tb-time{font-size:34px;min-width:84px}
+.timer .tb-ctrl{gap:4px}
+.timer .tb-ctrl button{min-width:42px;padding:6px 8px}
+@media (max-width:420px){.timer .tb-lbl{display:none}}
 .toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:12px 16px;border-radius:10px;font-weight:600;font-size:15px;max-width:calc(100% - 32px);box-shadow:0 6px 24px rgba(0,0,0,.25);z-index:20}
 .toast[hidden]{display:none}
 @media (prefers-reduced-motion:no-preference){
@@ -622,6 +656,13 @@ timer_note:['Przy zablokowanym ekranie telefon może wstrzymać dźwięk. Czas l
 about:['O aplikacji','About'],about_p:['Treningi, plany i pomiary zapisują się {0}. Nikt inny ich nie widzi.','Workouts, plans and measurements are saved {0}. Nobody else can see them.'],
 about_local:['w tej przeglądarce, na tym urządzeniu','in this browser, on this device'],about_cloud:['na Twoim koncie, w chmurze','to your account, in the cloud'],
 back:['← Wróć','← Back'],
+start_wk:['Zacznij trening','Start workout'],done_today:['Zrobione dziś. Dobra robota!','Done today. Nice work!'],start_again:['Zacznij jeszcze raz','Start again'],other_days:['Inne dni z planu','Other plan days'],start_free:['+ Pusty trening','+ Empty workout'],
+log_past:['Dopisz trening z innego dnia','Log a workout from another day'],finish_wk:['Kończę trening','Finish workout'],cancel_wk:['Anuluj trening','Discard workout'],
+minimize:['Zwiń trening','Minimise workout'],back_to_wk:['Wróć','Back'],wk_running:['Trening trwa','Workout in progress'],free_title:['Trening','Workout'],
+no_plan_today:['Dziś nic nie zaplanowano. Wybierz dzień z planu poniżej albo zrób pusty trening.','Nothing planned for today. Pick a plan day below or start an empty workout.'],
+manual_h:['Trening z innego dnia','Workout from another day'],edit_h:['Poprawiasz zapisany trening','Editing a saved workout'],
+sum_h:['Trening zakończony!','Workout finished!'],sum_time:['Czas','Time'],sum_sets:['Serie','Sets'],sum_vol:['Objętość','Volume'],sum_pr:['Nowe rekordy','New PRs'],
+cancel_wk_sure:['Na pewno? Trening nie zostanie zapisany','Sure? The workout will not be saved'],empty_session:['Dodaj pierwsze ćwiczenie i zaczynamy.','Add your first exercise and let’s go.'],
 ago_today:['dziś','today'],ago_yday:['wczoraj','yesterday'],ago_days:['{0} dni temu','{0} days ago'],mm_legend:['Serie w tygodniu','Sets per week'],
 wk_time:['Czas treningu','Workout time'],wk_start:['▶ Start treningu','▶ Start workout'],wk_started:['start {0}','started {0}'],wk_reset:['Od nowa','Restart'],
 wk_manual:['Czas treningu (min)','Workout time (min)'],wk_manual_ph:['np. 60','e.g. 60'],min_word:['min','min'],avg_time:['Średni czas treningu','Average workout time'],
@@ -807,7 +848,9 @@ function itemSummary(it){
   return n+' '+plu(n,'set')+(line?' · '+line:it.reps?' × '+it.reps:'');
 }
 let state=normalize(lsGet(LS_DATA));
-function newDraft(){return{id:null,date:today(),title:'',wu:wU(),startedAt:null,durMin:'',exercises:[]}}
+function newDraft(){return{id:null,mode:null,date:today(),title:'',wu:wU(),startedAt:null,durMin:'',exercises:[]}}
+let sessionMin=false,lastSummary=null;
+function isLive(){return draft.mode==='live'}
 let draft=lsGet(LS_DRAFT)||newDraft();
 let tab='trening', prevTab='trening', progEx=null, demo=false, demoData=null;
 let planDraft=null, planOpen=new Set();
@@ -1064,41 +1107,66 @@ function planStartCard(){
     <div class="day-list">${days||`<p class="small muted">${t('plan_no_days')}</p>`}</div>
   </section>`;
 }
-function viewTrening(){
-  const empty=!draft.exercises.length;
-  return `<section class="card">
-      <div class="row between">
-        <div style="flex:1;min-width:160px"><label for="d-date-btn">${t('workout_date')}</label>${dpField('d-date',draft.date)}</div>
-        ${draft.title?`<div class="draft-title"><span class="tag">${t('from_plan')}</span><b>${esc(draft.title)}</b></div>`:''}
-      </div>
-      ${draft.id?`<p class="small muted" style="margin:8px 0 0">${t('editing_saved')}</p>`:''}
-    </section>
-    ${wkTimerCard()}
-    ${empty?planStartCard():''}
-    ${empty?`<section class="card empty"><h2>${activePlan()?t('free_workout'):t('new_workout')}</h2><p>${t('new_workout_p')}</p><button class="big-add" data-action="open-picker">${t('add_exercise')}</button></section>`:''}
-    ${draft.exercises.map(exCard).join('')}
-    ${empty?'':`<button class="big-add" data-action="open-picker">${t('add_exercise')}</button>`}
-    <div class="stack">
-      <button class="primary" data-action="save-workout" ${empty?'disabled':''}>${draft.id?t('save_changes'):t('save_workout')}</button>
-      ${draft.id||!empty?`<button class="ghost" data-action="discard">${draft.id?t('cancel_edit'):t('clear_workout')}</button>`:''}
-    </div>`;
-}
-
 function wkElapsed(){return draft.startedAt?Math.max(0,Date.now()-draft.startedAt):0}
 function hms(ms){const s=Math.floor(ms/1000);return Math.floor(s/3600)+':'+pad(Math.floor(s%3600/60))+':'+pad(s%60)}
-function wkTimerCard(){
-  if(draft.id||draft.date!==today()){
-    return `<section class="card wk-card"><div class="wk-row"><div style="flex:1"><label for="wk-min">${t('wk_manual')}</label><input id="wk-min" data-wk="durMin" inputmode="numeric" value="${esc(draft.durMin||'')}" placeholder="${t('wk_manual_ph')}"></div></div></section>`;
-  }
-  if(!draft.startedAt)return `<button class="wk-start" data-action="wk-start">${t('wk_start')}</button>`;
-  const st=new Date(draft.startedAt);
-  return `<section class="card wk-card"><div class="wk-row">
-    <div><span class="lb-k">${t('wk_time')}</span><span class="wk-clock num" id="wk-clock">${hms(wkElapsed())}</span><span class="small muted">${t('wk_started',pad(st.getHours())+':'+pad(st.getMinutes()))}</span></div>
-    <button class="ghost small" data-action="wk-reset">${t('wk_reset')}</button>
-  </div></section>`;
+function durHM(min){const h=Math.floor(min/60),m=min%60;return h?h+':'+pad(m)+' h':m+' min'}
+setInterval(()=>{if(!draft.startedAt)return;const v=hms(wkElapsed());['ss-clock','mini-clock'].forEach(id=>{const c=document.getElementById(id);if(c)c.textContent=v})},1000);
+function summaryCard(){
+  const r=lastSummary;if(!r)return '';
+  return `<section class="card sum-card">
+    <span class="tag">${esc(r.title)}</span>
+    <h2>${t('sum_h')}</h2>
+    <div class="tiles" style="margin-top:8px">
+      <div class="tile"><div class="k">${t('sum_time')}</div><div class="v">${esc(durHM(r.dur))}</div></div>
+      <div class="tile"><div class="k">${t('sum_sets')}</div><div class="v">${r.sets}</div></div>
+      <div class="tile"><div class="k">${t('sum_vol')}</div><div class="v">${fmt(toW(r.vol),0)}<small>${wU()}</small></div></div>
+      <div class="tile"><div class="k">${t('sum_pr')}</div><div class="v">${r.prs.length}</div></div>
+    </div>
+    ${r.prs.length?`<p class="hint" style="margin-top:10px">🏆 ${esc(r.prs.join(', '))}</p>`:''}
+    <button class="small-btn" data-action="sum-ok" style="margin-top:10px;width:100%">${t('ok')}</button>
+  </section>`;
 }
-setInterval(()=>{const c=document.getElementById('wk-clock');if(c&&draft.startedAt)c.textContent=hms(wkElapsed())},1000);
-function startWk(){if(!draft.startedAt&&!draft.id&&draft.date===today()){draft.startedAt=Date.now();persistDraft()}}
+function idleView(){
+  const p=activePlan(),ti=wdIndex(today());
+  const td=p&&(p.days||[]).find(d=>(d.weekdays||[]).includes(ti));
+  let h=summaryCard();
+  const doneToday=td&&state.workouts.some(w=>w.date===today()&&w.dayId===td.id);
+  if(td){
+    h+=`<section class="card hero-day">
+      <span class="tag">${t('today_chip')} · ${esc(p.name)}</span>
+      <h2 class="hero-title">${esc(td.name)}</h2>
+      <ol class="hero-list">${(td.items||[]).map(it=>`<li><span class="hl-n">${esc(exName(it.name))}</span><span class="hl-s num">${itemSummary(it)}</span></li>`).join('')}</ol>
+      ${doneToday?`<p class="hint" style="margin:0">✓ ${t('done_today')}</p><button data-action="start-day" data-pid="${esc(p.id)}" data-did="${esc(td.id)}">${t('start_again')}</button>`:`<button class="primary" data-action="start-day" data-pid="${esc(p.id)}" data-did="${esc(td.id)}">${t('start_wk')}</button>`}
+    </section>`;
+  }else if(p){h+=`<section class="card"><span class="tag">${esc(p.name)}</span><p style="margin:6px 0 0">${t('no_plan_today')}</p></section>`}
+  if(p){
+    const others=(p.days||[]).filter(d=>d!==td);
+    if(others.length)h+=`<section class="card"><h3>${td?t('other_days'):t('your_plan')}</h3><div class="day-list">${others.map(d=>`<button class="day-btn" data-action="start-day" data-pid="${esc(p.id)}" data-did="${esc(d.id)}"><span class="dn">${esc(d.name)}</span><span class="dm">${dayMeta(d)}</span><span class="chip">${t('start')} ▶</span></button>`).join('')}</div></section>`;
+  }else h+=`<section class="card plan-cta"><div><h3>${t('have_plan_q')}</h3><p class="small muted" style="margin:4px 0 0">${t('have_plan_p')}</p></div><button data-action="goto" data-tab="plany">${t('set_plan')}</button></section>`;
+  h+=`<button class="big-add" data-action="start-free">${t('start_free')}</button>`;
+  h+=`<div style="text-align:center"><button class="ghost" data-action="log-past">${t('log_past')}</button></div>`;
+  return h;
+}
+function viewTrening(){
+  if(!draft.mode&&!draft.exercises.length)return idleView();
+  const live=isLive(),empty=!draft.exercises.length;
+  const head=live?'':`<section class="card">
+      <span class="tag">${draft.id?t('edit_h'):t('manual_h')}</span>
+      <div class="meas-grid" style="margin-top:8px">
+        <div class="full"><label for="d-date-btn">${t('workout_date')}</label>${dpField('d-date',draft.date,{max:today()})}</div>
+        <div class="full"><label for="wk-min">${t('wk_manual')}</label><input id="wk-min" data-wk="durMin" inputmode="numeric" value="${esc(draft.durMin||'')}" placeholder="${t('wk_manual_ph')}"></div>
+      </div>
+      ${draft.title?`<p class="small" style="margin:8px 0 0">${t('from_plan')}: <b>${esc(draft.title)}</b></p>`:''}
+    </section>`;
+  return `${head}
+    ${empty?`<section class="card empty"><p>${t('empty_session')}</p></section>`:''}
+    ${draft.exercises.map(exCard).join('')}
+    <button class="big-add" data-action="open-picker">${t('add_exercise')}</button>
+    <div class="stack finish-zone">
+      <button class="primary" data-action="save-workout" ${empty?'disabled':''}>${live?t('finish_wk'):(draft.id?t('save_changes'):t('save_workout'))}</button>
+      <button class="ghost" data-action="discard">${live?t('cancel_wk'):(draft.id?t('cancel_edit'):t('cancel'))}</button>
+    </div>`;
+}
 
 /* ---------- widok: Plany ---------- */
 function planCard(p){
@@ -1596,48 +1664,51 @@ function viewUstawienia(){
 const timerEl=$('#timer');
 let timer={state:'idle',dur:+prefs.rest||180,end:0,left:0};
 let tickH=null,audioCtx=null,doneT=null;
-function timerVisible(){return tab==='trening'||(timer.state!=='idle'&&timer.state!=='custom')}
 function remaining(){return timer.state==='run'?(timer.end-Date.now())/1000:timer.state==='pause'?timer.left:timer.dur}
-function renderTimer(){
-  document.body.classList.toggle('has-timer',timerVisible());
-  if(!timerVisible()){timerEl.hidden=true;timerEl.innerHTML='';return}
-  timerEl.hidden=false;
+function stopRest(){clearInterval(tickH);clearTimeout(doneT);timer.state='idle'}
+function restUI(){
   const st=timer.state;
   if(st==='custom'){
-    timerEl.className='timer idle';
     const m=Math.floor(timer.dur/60),sc=timer.dur%60;
-    timerEl.innerHTML=`<div class="tb-row tb-cust">
-      <span class="tb-ico" aria-hidden="true">⏱</span>
+    return `<div class="tb-row tb-cust"><span class="tb-ico" aria-hidden="true">⏱</span>
       <label class="tb-in"><input id="tm-m" inputmode="numeric" value="${m}" aria-label="${t('tm_min')}"><span>${t('tm_min')}</span></label>
       <label class="tb-in"><input id="tm-s" inputmode="numeric" value="${pad(sc)}" aria-label="${t('tm_sec')}"><span>${t('tm_sec')}</span></label>
-      <button class="tb-start" data-action="tm-custom-ok">${t('tm_set')}</button>
-      <button class="ghost" data-action="tm-custom-x" aria-label="${t('cancel')}">✕</button>
-    </div>`;
-    setTimeout(()=>{const i=$('#tm-m');if(i){i.focus();i.select()}},0);
-    return;
+      <button class="tb-start" data-action="tm-custom-ok">${t('tm_set')}</button><button class="ghost" data-action="tm-custom-x" aria-label="${t('cancel')}">✕</button></div>`;
   }
-  if(st==='idle'){
-    timerEl.className='timer idle';
-    timerEl.innerHTML=`<div class="tb-row">
-      <span class="tb-ico" aria-hidden="true">⏱</span>
+  if(st==='idle')return `<div class="tb-row"><span class="tb-ico" aria-hidden="true">⏱</span>
       <div class="tb-presets" role="group" aria-label="${t('rest_len')}">${[...new Set([60,90,120,180,240].concat(prefs.restCustom>0?[prefs.restCustom]:[]))].sort((a,b)=>a-b).map(s=>`<button class="tb-chip" data-action="tm-set" data-s="${s}" aria-pressed="${timer.dur===s}">${fmtTime(s)}</button>`).join('')}<button class="tb-chip tb-custom" data-action="tm-custom">${t('tm_custom')}…</button></div>
-      <button class="tb-start" data-action="tm-start">${t('rest')} ${fmtTime(timer.dur)} ▶</button>
-    </div>`;
-  }else if(st==='done'){
-    timerEl.className='timer done';
-    timerEl.innerHTML=`<div class="tb-row"><span class="tb-go">${t('go')}</span><button class="tb-start" data-action="tm-ok">${t('ok')}</button></div>`;
+      <button class="tb-start" data-action="tm-start">${t('rest')} ${fmtTime(timer.dur)} ▶</button></div>`;
+  if(st==='done')return `<div class="tb-row tb-donerow"><span class="tb-go">${t('go')}</span><button class="tb-start" data-action="tm-ok">${t('ok')}</button></div>`;
+  return `<div class="tb-prog"><i id="tb-bar"></i></div><div class="tb-row">
+      <span class="tb-lbl">${t('rest')}</span><span class="tb-time num" id="tb-time" role="timer" aria-live="off">${fmtTime(remaining())}</span>
+      <div class="tb-ctrl"><button data-action="tm-minus" aria-label="${t('minus15')}">−15</button><button data-action="tm-toggle" aria-label="${st==='pause'?t('resume'):t('pause')}">${st==='pause'?'▶':'❚❚'}</button><button data-action="tm-plus" aria-label="${t('plus15')}">+15</button><button data-action="tm-stop" aria-label="${t('stop')}">✕</button></div></div>`;
+}
+function renderTimer(){
+  const live=isLive(),full=live&&tab==='trening'&&!sessionMin;
+  const restOn=timer.state==='run'||timer.state==='pause'||timer.state==='done';
+  const mini=live&&!full,bottom=!live&&restOn;
+  document.body.classList.toggle('in-session',full);
+  document.body.classList.toggle('has-timer',mini||bottom);
+  if(!live&&!restOn){timerEl.hidden=true;timerEl.innerHTML='';return}
+  timerEl.hidden=false;
+  const stc=' st-'+timer.state+(timer.state==='pause'?' paused run':timer.state==='run'?' run':timer.state==='done'?' done':'');
+  if(full){
+    timerEl.className='timer sess'+stc;
+    timerEl.innerHTML=`<div class="ss-top">
+      <button class="ss-min" data-action="ss-min" aria-label="${t('minimize')}" title="${t('minimize')}">⌄</button>
+      <div class="ss-mid"><span class="ss-title">${esc(draft.title||t('free_title'))}</span><span class="ss-clock num" id="ss-clock">${hms(wkElapsed())}</span></div>
+      <span class="ss-gap"></span>
+    </div><div class="ss-rest">${restUI()}</div>`;
+    requestAnimationFrame(()=>document.body.style.setProperty('--ssh',timerEl.offsetHeight+'px'));
+  }else if(mini){
+    timerEl.className='timer mini'+stc;
+    timerEl.innerHTML=`<div class="tb-row"><span class="mini-dot" aria-hidden="true"></span><div class="mini-txt"><b>${t('wk_running')}</b><span><span class="num" id="mini-clock">${hms(wkElapsed())}</span>${restOn&&timer.state!=='done'?` · ${t('rest')} <span class="num" id="tb-time">${fmtTime(remaining())}</span>`:timer.state==='done'?` · ${t('go')}`:''}</span></div><button class="tb-start" data-action="ss-back">${t('back_to_wk')}</button></div>`;
   }else{
-    timerEl.className='timer run'+(st==='pause'?' paused':'');
-    timerEl.innerHTML=`<div class="tb-prog"><i id="tb-bar"></i></div><div class="tb-row">
-      <span class="tb-time num" id="tb-time" role="timer" aria-live="off">${fmtTime(remaining())}</span>
-      <div class="tb-ctrl">
-        <button data-action="tm-minus" aria-label="${t('minus15')}">−15</button>
-        <button data-action="tm-toggle" aria-label="${st==='pause'?t('resume'):t('pause')}">${st==='pause'?'▶':'❚❚'}</button>
-        <button data-action="tm-plus" aria-label="${t('plus15')}">+15</button>
-        <button data-action="tm-stop" aria-label="${t('stop')}">✕</button>
-      </div></div>`;
-    tick();
+    timerEl.className='timer'+stc;
+    timerEl.innerHTML=restUI();
   }
+  if(timer.state==='custom')setTimeout(()=>{const i=$('#tm-m');if(i){i.focus();i.select()}},0);
+  tick();
 }
 function tick(){
   if(timer.state!=='run'&&timer.state!=='pause')return;
@@ -1673,6 +1744,8 @@ timerEl.addEventListener('keydown',e=>{if(e.key==='Enter'&&timer.state==='custom
 timerEl.addEventListener('click',e=>{
   const b=e.target.closest('[data-action]');if(!b)return;
   const a=b.dataset.action;
+  if(a==='ss-min'){sessionMin=true;render();return}
+  if(a==='ss-back'){sessionMin=false;setTab('trening');return}
   if(a==='tm-set'){timer.dur=+b.dataset.s;renderTimer()}
   else if(a==='tm-custom'){timer.state='custom';renderTimer()}
   else if(a==='tm-custom-x'){timer.state='idle';renderTimer()}
@@ -1693,7 +1766,7 @@ timerEl.addEventListener('click',e=>{
     else{timer.left=Math.max(0,timer.left+d);if(d>0)timer.total+=d}
     tick();
   }
-  else if(a==='tm-stop'||a==='tm-ok'){clearInterval(tickH);clearTimeout(doneT);timer.state='idle';renderTimer()}
+  else if(a==='tm-stop'||a==='tm-ok'){stopRest();renderTimer()}
 });
 
 /* ---------- sylwetka z zaznaczoną partią ---------- */
@@ -1882,7 +1955,7 @@ function pickExercise(name){
       const ex=draft.exercises[i];
       if(ex.sets.some(s=>String(s.r).trim()!=='')){toast(t('already_sets'));return}
       draft.exercises.splice(i,1);
-    }else{addToDraft(name,null);startWk()}
+    }else addToDraft(name,null);
     persistDraft();
   }
   renderPicker();
@@ -1920,7 +1993,7 @@ function render(){
 }
 let toastT;
 function toast(msg){const el=$('#toast');el.textContent=msg;el.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>el.hidden=true,3400)}
-function setTab(x){if(!TABS.includes(x))x='trening';if(x==='ustawienia'&&tab!=='ustawienia')prevTab=tab;tab=x;if(location.hash!=='#'+x){try{history.replaceState(null,'','#'+x)}catch(e){location.hash=x}}render();window.scrollTo(0,0)}
+function setTab(x){if(!TABS.includes(x))x='trening';if(x==='trening')sessionMin=false;if(x==='ustawienia'&&tab!=='ustawienia')prevTab=tab;tab=x;if(location.hash!=='#'+x){try{history.replaceState(null,'','#'+x)}catch(e){location.hash=x}}render();window.scrollTo(0,0)}
 function confirmClick(b,label){
   if(b.classList.contains('danger-armed'))return true;
   b.classList.add('danger-armed');b.dataset.orig=b.textContent;b.textContent=label;
@@ -1945,13 +2018,15 @@ async function saveWorkout(){
     if(bestE>0?myE>bestE+0.01:(myE===0&&myR>bestR))prs.push(exName(ex.name));
   }
   const man=parseInt(draft.durMin,10);
-  const duration=man>0&&man<600?man:(draft.startedAt&&!draft.id?Math.max(1,Math.round(wkElapsed()/60000)):(draft.id&&draft.prevDur?draft.prevDur:0));
+  const live=isLive();
+  const duration=live?Math.max(1,Math.round(wkElapsed()/60000)):(man>0&&man<600?man:(draft.id&&draft.prevDur?draft.prevDur:0));
   const w={id:draft.id||genId('w-'),date:draft.date||today(),title:draft.title||'',planId:draft.planId||null,dayId:draft.dayId||null,duration:duration||0,exercises};
   const editing=!!draft.id;
+  if(live){let sets=0,vol=0;exercises.forEach(e=>e.sets.forEach(x=>{sets++;vol+=x.w*x.r}));lastSummary={title:draft.title||t('free_title'),dur:duration,sets,vol,prs:prs.slice()};stopRest()}
   draft=newDraft();persistDraft();
   await saveDoc('workouts',w,true);
   const upd=await updatePlanFromWorkout(w);
-  render();
+  render();window.scrollTo(0,0);
   const msg=prs.length?t('saved_pr',prs.join(', ')):editing?t('saved_edit'):t('saved_ok');
   toast(upd?msg+' '+t('plan_updated',upd):msg);
 }
@@ -2008,20 +2083,22 @@ app.addEventListener('click',async e=>{
   const a=b.dataset.action,ei=+b.dataset.ei,si=+b.dataset.si,di=+b.dataset.di,ii=+b.dataset.ii;
   if(a==='dp-open'){openDP(b);return}
   if(a==='open-picker')openPicker({kind:'draft'});
-  else if(a==='wk-start'){draft.startedAt=Date.now();persistDraft();render()}
-  else if(a==='wk-reset'){if(!confirmClick(b,t('sure')))return;draft.startedAt=Date.now();persistDraft();render()}
+  else if(a==='start-free'){draft=Object.assign(newDraft(),{mode:'live',startedAt:Date.now()});persistDraft();sessionMin=false;lastSummary=null;render();openPicker({kind:'draft'})}
+  else if(a==='log-past'){const y=new Date();y.setDate(y.getDate()-1);draft=Object.assign(newDraft(),{mode:'manual',date:ymd(y)});persistDraft();lastSummary=null;render();window.scrollTo(0,0)}
+  else if(a==='sum-ok'){lastSummary=null;render()}
   else if(a==='add-set'){const ex=draft.exercises[ei];const l=ex.sets[ex.sets.length-1]||{w:'',r:''};ex.sets.push({w:l.w,r:ex.target?'':l.r});persistDraft();render();const el=document.getElementById('r-'+ei+'-'+(ex.sets.length-1));if(el)el.focus({preventScroll:true})}
   else if(a==='rm-set'){const ex=draft.exercises[ei];ex.sets.splice(si,1);if(!ex.sets.length)ex.sets.push({w:'',r:''});persistDraft();render()}
   else if(a==='rm-ex'){if(!confirmClick(b,t('sure')))return;draft.exercises.splice(ei,1);if(!draft.exercises.length)draft.title='';persistDraft();render()}
   else if(a==='save-workout'){b.disabled=true;await saveWorkout()}
-  else if(a==='discard'){if(!confirmClick(b,t('confirm_again')))return;draft=newDraft();persistDraft();render()}
+  else if(a==='discard'){if(!confirmClick(b,isLive()?t('cancel_wk_sure'):t('confirm_again')))return;draft=newDraft();persistDraft();stopRest();render();window.scrollTo(0,0)}
   else if(a==='start-day'){
     const p=state.plans.find(x=>x.id===b.dataset.pid),d=p&&(p.days||[]).find(x=>x.id===b.dataset.did);if(!d)return;
-    if(draft.exercises.length&&!draft.id){toast(t('finish_first'));setTab('trening');return}
+    if(draft.mode||draft.exercises.length){toast(t('finish_first'));sessionMin=false;setTab('trening');return}
     const date=calSel&&tab==='historia'?calSel:today();
-    draft={id:null,date,title:d.name,planId:p.id,dayId:d.id,wu:wU(),exercises:[]};
+    const live=date===today();
+    draft={id:null,mode:live?'live':'manual',date,title:d.name,planId:p.id,dayId:d.id,wu:wU(),startedAt:live?Date.now():null,durMin:'',exercises:[]};
+    sessionMin=false;lastSummary=null;
     (d.items||[]).forEach(it=>addToDraft(it.name,{sets:(it.sets||[]).length||3,reps:it.reps||''},it.sets));
-    startWk();
     persistDraft();calSel=null;setTab('trening');
   }
   else if(a==='install'&&installEvt){installEvt.prompt();try{await installEvt.userChoice}catch(e){}installEvt=null;render()}
@@ -2074,10 +2151,10 @@ app.addEventListener('click',async e=>{
   else if(a==='cal-prev'||a==='cal-next'){const [y,m]=calMonth.split('-').map(Number);const d=new Date(y,m-1+(a==='cal-next'?1:-1),1);calMonth=d.getFullYear()+'-'+pad(d.getMonth()+1);calSel=null;render()}
   else if(a==='cal-day'){calSel=calSel===b.dataset.date?null:b.dataset.date;render()}
   else if(a==='cal-clear'){calSel=null;render()}
-  else if(a==='train-on'){if(draft.id)draft=newDraft();draft.date=b.dataset.date;persistDraft();calSel=null;setTab('trening')}
+  else if(a==='train-on'){if(draft.mode||draft.exercises.length){toast(t('finish_first'));setTab('trening');return}draft=Object.assign(newDraft(),{mode:'manual',date:b.dataset.date});persistDraft();calSel=null;setTab('trening')}
   else if(a==='edit-workout'){
     const w=state.workouts.find(x=>x.id===b.dataset.id);if(!w)return;
-    draft={id:w.id,date:w.date,title:w.title||'',planId:w.planId||null,dayId:w.dayId||null,wu:wU(),startedAt:null,durMin:w.duration?String(w.duration):'',prevDur:w.duration||0,exercises:(w.exercises||[]).map(e=>({name:e.name,target:null,sets:validSets(e.sets).map(s=>({w:fWin(s.w),r:String(s.r)}))}))};
+    draft={id:w.id,mode:'manual',date:w.date,title:w.title||'',planId:w.planId||null,dayId:w.dayId||null,wu:wU(),startedAt:null,durMin:w.duration?String(w.duration):'',prevDur:w.duration||0,exercises:(w.exercises||[]).map(e=>({name:e.name,target:null,sets:validSets(e.sets).map(s=>({w:fWin(s.w),r:String(s.r)}))}))};
     persistDraft();setTab('trening');
   }
   else if(a==='del-workout'){if(!confirmClick(b,t('sure_delete')))return;await removeDoc('workouts',b.dataset.id);toast(t('deleted'))}
@@ -2227,6 +2304,7 @@ function start(data){
   if(data&&data.planDraft)planDraft=data.planDraft;
   if(!draft||!draft.exercises)draft=newDraft();
   if(!draft.wu)draft.wu='kg';
+  if(draft.mode===undefined){draft.mode=draft.exercises.length?(draft.startedAt&&draft.date===today()&&!draft.id?'live':'manual'):null}
   convertDraft();
   const h=location.hash.slice(1);tab=TABS.includes(h)?h:'trening';
   render();
