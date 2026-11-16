@@ -677,6 +677,8 @@ timer_note:['Przy zablokowanym ekranie telefon może wstrzymać dźwięk. Czas l
 about:['O aplikacji','About'],about_p:['Treningi, plany i pomiary zapisują się {0}. Nikt inny ich nie widzi.','Workouts, plans and measurements are saved {0}. Nobody else can see them.'],
 about_local:['w tej przeglądarce, na tym urządzeniu','in this browser, on this device'],about_cloud:['na Twoim koncie, w chmurze','to your account, in the cloud'],
 back:['← Wróć','← Back'],
+prep_h:['Nowy trening','New workout'],prep_p:['Wybierz ćwiczenia. Czas ruszy dopiero, gdy klikniesz START.','Pick your exercises. The clock starts only when you tap START.'],
+prep_start:['▶ START','▶ START'],prep_name:['Nazwa treningu (opcjonalnie)','Workout name (optional)'],prep_name_ph:['np. Klatka i triceps','e.g. Chest and triceps'],
 set_done:['Seria zrobiona','Set done'],ex_more:['Więcej opcji','More options'],ex_up:['↑ Wyżej','↑ Up'],ex_down:['↓ Niżej','↓ Down'],ex_swap:['⇄ Zamień','⇄ Swap'],
 swap_title:['Zamień: {0}','Swap: {0}'],swapped:['Zamieniono na: {0}','Swapped to: {0}'],sets_done:['{0} / {1} serii','{0} / {1} sets'],
 start_wk:['Zacznij trening','Start workout'],done_today:['Zrobione dziś. Dobra robota!','Done today. Nice work!'],start_again:['Zacznij jeszcze raz','Start again'],other_days:['Inne dni z planu','Other plan days'],start_free:['+ Pusty trening','+ Empty workout'],
@@ -1178,8 +1180,24 @@ function idleView(){
   h+=`<div style="text-align:center"><button class="ghost" data-action="log-past">${t('log_past')}</button></div>`;
   return h;
 }
+function prepView(){
+  const empty=!draft.exercises.length;
+  return `<section class="card">
+      <span class="tag">${t('prep_h')}</span>
+      <p class="small muted" style="margin:4px 0 10px">${t('prep_p')}</p>
+      <label for="prep-name">${t('prep_name')}</label>
+      <input id="prep-name" data-wk="title" value="${esc(draft.title||'')}" placeholder="${t('prep_name_ph')}">
+    </section>
+    ${draft.exercises.map(exCard).join('')}
+    <button class="big-add" data-action="open-picker">${t('add_exercise')}</button>
+    <div class="stack finish-zone">
+      <button class="primary" data-action="prep-start" ${empty?'disabled':''}>${t('prep_start')}</button>
+      <button class="ghost" data-action="discard">${t('cancel')}</button>
+    </div>`;
+}
 function viewTrening(){
   if(!draft.mode&&!draft.exercises.length)return idleView();
+  if(draft.mode==='prep')return prepView();
   const live=isLive(),empty=!draft.exercises.length;
   const head=live?'':`<section class="card">
       <span class="tag">${draft.id?t('edit_h'):t('manual_h')}</span>
@@ -2136,7 +2154,8 @@ app.addEventListener('click',async e=>{
   if(a==='ex-up'||a==='ex-down'){const j=a==='ex-up'?ei-1:ei+1,L2=draft.exercises;if(j<0||j>=L2.length)return;[L2[ei],L2[j]]=[L2[j],L2[ei]];exMenu=j;persistDraft();render();const c=document.querySelectorAll('.card.ex')[j];if(c)c.scrollIntoView({block:'nearest'});return}
   if(a==='ex-swap'){exMenu=-1;openPicker({kind:'swap',ei});return}
   if(a==='open-picker')openPicker({kind:'draft'});
-  else if(a==='start-free'){draft=Object.assign(newDraft(),{mode:'live',startedAt:Date.now()});persistDraft();sessionMin=false;lastSummary=null;render();openPicker({kind:'draft'})}
+  else if(a==='start-free'){draft=Object.assign(newDraft(),{mode:'prep'});persistDraft();lastSummary=null;render();window.scrollTo(0,0);openPicker({kind:'draft'})}
+  else if(a==='prep-start'){if(!draft.exercises.length)return;draft.mode='live';draft.startedAt=Date.now();persistDraft();sessionMin=false;render();window.scrollTo(0,0)}
   else if(a==='log-past'){const y=new Date();y.setDate(y.getDate()-1);draft=Object.assign(newDraft(),{mode:'manual',date:ymd(y)});persistDraft();lastSummary=null;render();window.scrollTo(0,0)}
   else if(a==='sum-ok'){lastSummary=null;render()}
   else if(a==='add-set'){const ex=draft.exercises[ei];const l=ex.sets[ex.sets.length-1]||{w:'',r:''};ex.sets.push({w:l.w,r:l.r,done:false});persistDraft();render();const el=document.getElementById('r-'+ei+'-'+(ex.sets.length-1));if(el)el.focus({preventScroll:true})}
