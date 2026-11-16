@@ -6,6 +6,13 @@
 <title>Repsody</title>
 <meta name="apple-mobile-web-app-title" content="Repsody">
 <meta name="application-name" content="Repsody">
+<meta name="theme-color" content="#C8102E">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -457,6 +464,11 @@ timer_note:['Przy zablokowanym ekranie telefon może wstrzymać dźwięk. Czas l
 about:['O aplikacji','About'],about_p:['Treningi, plany i pomiary zapisują się {0}. Nikt inny ich nie widzi.','Workouts, plans and measurements are saved {0}. Nobody else can see them.'],
 about_local:['w tej przeglądarce, na tym urządzeniu','in this browser, on this device'],about_cloud:['na Twoim koncie, w chmurze','to your account, in the cloud'],
 back:['← Wróć','← Back'],
+install_h:['Aplikacja na telefonie','App on your phone'],install_btn:['Zainstaluj Repsody','Install Repsody'],
+installed:['Repsody jest zainstalowane i działa także bez internetu.','Repsody is installed and also works offline.'],
+install_ios:['iPhone: w Safari kliknij Udostępnij (kwadrat ze strzałką), potem „Do ekranu początkowego”.','iPhone: in Safari tap Share (square with an arrow), then “Add to Home Screen”.'],
+install_android:['Android: w Chrome kliknij menu ⋮, potem „Zainstaluj aplikację” albo „Dodaj do ekranu głównego”.','Android: in Chrome tap the ⋮ menu, then “Install app” or “Add to Home screen”.'],
+install_p:['Po instalacji Repsody ma własną ikonę, otwiera się na pełnym ekranie i działa bez internetu.','Once installed, Repsody has its own icon, opens full screen and works offline.'],
 favs:['Ulubione','Favourites'],fav_add:['Dodaj do ulubionych: {0}','Add to favourites: {0}'],fav_rm:['Usuń z ulubionych: {0}','Remove from favourites: {0}'],
 fav_empty:['Dotknij gwiazdki przy ćwiczeniu, a trafi tutaj. Najczęściej robione ćwiczenia będziesz mieć pod ręką.','Tap the star next to an exercise to save it here, so your go-to exercises are always at hand.'],
 eq_all:['Wszystko','All'],eq_free:['Wolne ciężary','Free weights'],eq_machine:['Maszyny i wyciągi','Machines & cables'],eq_body:['Masa ciała','Bodyweight'],eq_other:['Inne','Other'],
@@ -1219,6 +1231,11 @@ function viewUstawienia(){
     <p class="small muted" style="margin:8px 0 0">${t('timer_note')}</p>
   </section>
   <section class="card">
+    <h3>${t('install_h')}</h3>
+    ${isStandalone()?`<p class="small" style="margin:6px 0 0">✓ ${t('installed')}</p>`:`<p class="small muted" style="margin:6px 0 10px">${t('install_p')}</p>
+    ${installEvt?`<button class="primary" data-action="install">${t('install_btn')}</button>`:`<p class="small" style="margin:0 0 6px">${t('install_android')}</p><p class="small" style="margin:0">${t('install_ios')}</p>`}`}
+  </section>
+  <section class="card">
     <h3>${t('about')}</h3>
     <p class="small" style="margin:6px 0 0">Repsody · ${t('about_p',backend==='cloud'?t('about_cloud'):t('about_local'))}</p>
   </section>`;
@@ -1574,6 +1591,7 @@ app.addEventListener('click',async e=>{
     (d.items||[]).forEach(it=>addToDraft(it.name,{sets:(it.sets||[]).length||3,reps:it.reps||''},it.sets));
     persistDraft();calSel=null;setTab('trening');
   }
+  else if(a==='install'&&installEvt){installEvt.prompt();try{await installEvt.userChoice}catch(e){}installEvt=null;render()}
   else if(a==='demo-on'){demo=true;render()}
   else if(a==='demo-off'){demo=false;render()}
   else if(a==='goto'){setTab(b.dataset.tab)}
@@ -1674,6 +1692,15 @@ app.addEventListener('submit',async e=>{
   await saveDoc('body',{id,date,weight:vals.weight||ex.weight||null,m});
   render();window.scrollTo(0,0);toast(t('measure_saved'));
 });
+
+/* ---------- instalacja (PWA) ---------- */
+let installEvt=null;
+function isStandalone(){try{return window.matchMedia('(display-mode: standalone)').matches||navigator.standalone===true}catch(e){return false}}
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installEvt=e;if(tab==='ustawienia')render()});
+window.addEventListener('appinstalled',()=>{installEvt=null;if(tab==='ustawienia')render()});
+if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)&&!window.claude){
+  window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{})});
+}
 
 /* ---------- start ---------- */
 function start(data){
