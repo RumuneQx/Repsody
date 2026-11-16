@@ -61,7 +61,7 @@ h1{font-family:var(--display);font-weight:800;font-size:52px;line-height:.9;lett
 .sync.warn i{background:var(--accent)}
 nav.tabs{position:sticky;top:0;z-index:5;background:var(--nav-bg,var(--bg));-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);display:flex;gap:4px;padding:12px 0 10px;margin-bottom:6px;overflow-x:auto;scrollbar-width:none}
 nav.tabs::-webkit-scrollbar{display:none}
-nav.tabs button{flex:1 1 auto;min-width:0;font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:.5px;text-transform:uppercase;background:transparent;color:var(--muted);border:0;border-bottom:3px solid var(--line);padding:8px 2px 6px;cursor:pointer;border-radius:0;min-height:40px}
+nav.tabs button{flex:1 0 auto;min-width:0;font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:.5px;text-transform:uppercase;background:transparent;color:var(--muted);border:0;border-bottom:3px solid var(--line);padding:8px 2px 6px;cursor:pointer;border-radius:0;min-height:40px}
 nav.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
 .stack{display:flex;flex-direction:column;gap:12px}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px}
@@ -336,6 +336,70 @@ svg.star{width:20px;height:20px;fill:currentColor}
 .sk-card i:last-child{flex:1;opacity:.9}
 .sk-name{font-weight:700;font-size:15px;padding:0 4px}
 .sk-desc{font-size:12px;color:var(--muted);font-weight:400;padding:0 4px;line-height:1.3}
+nav.tabs{scroll-snap-type:x proximity;-webkit-mask-image:linear-gradient(90deg,#000 92%,transparent);mask-image:linear-gradient(90deg,#000 92%,transparent)}
+.habit{display:flex;flex-direction:column;gap:12px}
+.hb-head{display:flex;align-items:center;gap:12px}
+.hb-ico{flex:none;width:48px;height:48px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:26px}
+.hb-title h3{line-height:1.05}
+.hb-main{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.hb-num{font-family:var(--display);font-weight:800;font-size:64px;line-height:.9;color:var(--accent)}
+.hb-unit{font-family:var(--display);font-weight:700;font-size:26px;text-transform:uppercase}
+.hb-sub{color:var(--muted);font-size:14px;margin-left:auto}
+.hb-bar{height:8px;border-radius:4px;background:var(--bg);margin-top:6px;overflow:hidden}
+.hb-bar i{display:block;height:100%;background:var(--accent);border-radius:4px}
+.hb-badges{display:flex;flex-wrap:wrap;gap:5px}
+.hb-badge{font-size:12px;font-weight:600;padding:3px 9px;border-radius:999px;background:var(--bg);color:var(--muted)}
+.hb-badge.on{background:var(--accent-soft);color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.hb-stats{display:flex;gap:8px;flex-wrap:wrap}
+.hb-stats>div{flex:1 1 120px;background:var(--bg);border-radius:calc(var(--r) * .8);padding:8px 10px}
+.hb-stats b{font-family:var(--display);font-size:22px;display:block;line-height:1.1}
+.hb-more summary{cursor:pointer;font-size:14px;font-weight:600;color:var(--muted);padding:4px 0}
+.hb-opts{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+.hb-presets{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
+.hb-preset{display:flex;align-items:center;gap:8px;justify-content:flex-start;text-align:left;font-size:14px;min-height:46px;background:var(--bg)}
+.hb-preset span{font-size:20px}
+.hb-preset[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.hb-icons{display:grid;grid-template-columns:repeat(8,1fr);gap:4px}
+.hb-icon{min-height:40px;padding:0;font-size:20px;background:var(--bg)}
+.hb-icon[aria-pressed="true"]{border:2px solid var(--accent);background:var(--accent-soft)}
+.tb-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+@media (min-width:520px){.tb-grid{grid-template-columns:repeat(3,1fr)}}
+.tbadge{position:relative;display:flex;flex-direction:column;gap:4px;background:var(--bg);border-radius:calc(var(--r) * .8);padding:10px;min-height:96px}
+.tbadge .tb-i{font-size:24px;filter:grayscale(1);opacity:.45}
+.tbadge.on .tb-i{filter:none;opacity:1}
+.tbadge .tb-l{font-weight:600;font-size:14px;line-height:1.2;color:var(--muted)}
+.tbadge.on{background:var(--accent-soft);box-shadow:inset 0 0 0 1px var(--accent)}
+.tbadge.on .tb-l{color:var(--ink)}
+.tb-ok{position:absolute;top:8px;right:10px;color:var(--accent);font-weight:800}
+.tb-p{height:5px;border-radius:3px;background:var(--line);overflow:hidden;margin-top:auto}
+.tb-p i{display:block;height:100%;background:var(--muted)}
+.tb-v{font-size:12px;color:var(--muted)}
+.dp-field{position:relative}
+.dp-btn{width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;text-align:left;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px;min-height:44px;font-weight:500;color:var(--ink)}
+.dp-btn span::first-letter{text-transform:uppercase}
+.dp-ico{width:20px;height:20px;color:var(--accent);flex:none}
+.dt-row{display:flex;gap:8px;align-items:stretch}
+.dt-row .dp-field{flex:1;min-width:0}
+.dt-row .tm{width:110px;flex:none}
+.dp-overlay{position:fixed;inset:0;z-index:40;background:rgba(10,12,15,.5);display:flex;align-items:center;justify-content:center;padding:16px}
+.dp-overlay[hidden]{display:none}
+.dp-panel{width:100%;max-width:360px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:calc(var(--r) + 6px);box-shadow:0 18px 50px rgba(0,0,0,.35);overflow:hidden}
+.dp-sel{background:var(--accent);color:var(--accent-ink);padding:14px 16px 12px}
+.dp-sel .lb-k{color:inherit;opacity:.8}
+.dp-sel b{display:block;font-family:var(--display);font-weight:800;font-size:28px;line-height:1.05;text-transform:uppercase;margin-top:2px}
+.dp-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px 4px}
+.dp-head button{width:40px;min-height:40px;padding:0;font-family:var(--display);font-size:24px;line-height:1;border-radius:50%;background:var(--bg)}
+.dp-head button:disabled{opacity:.3}
+.dp-title{font-family:var(--display);font-weight:700;font-size:22px;text-transform:uppercase;letter-spacing:.3px}
+.dp-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;padding:4px 12px 6px}
+.dp-wd{font-size:11px;font-weight:600;text-transform:uppercase;color:var(--muted);text-align:center;padding:4px 0}
+.dp-day{aspect-ratio:1;min-height:0;padding:0;border:0;border-radius:calc(var(--r) * .7);background:transparent;font-variant-numeric:tabular-nums;font-weight:600;font-size:15px;color:var(--ink)}
+.dp-day:hover{background:var(--bg);border:0}
+.dp-day.out{color:var(--muted);opacity:.55}
+.dp-day.today{box-shadow:inset 0 0 0 2px var(--accent)}
+.dp-day[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);box-shadow:none}
+.dp-day:disabled{opacity:.25;cursor:not-allowed}
+.dp-foot{display:flex;justify-content:space-between;gap:8px;padding:6px 12px 12px}
 .toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:12px 16px;border-radius:10px;font-weight:600;font-size:15px;max-width:calc(100% - 32px);box-shadow:0 6px 24px rgba(0,0,0,.25);z-index:20}
 .toast[hidden]{display:none}
 @media (prefers-reduced-motion:no-preference){
@@ -362,12 +426,14 @@ svg.star{width:20px;height:20px;fill:currentColor}
     <button role="tab" id="tab-postep" data-tab="postep">Postęp</button>
     <button role="tab" id="tab-historia" data-tab="historia">Historia</button>
     <button role="tab" id="tab-cialo" data-tab="cialo">Ciało</button>
+    <button role="tab" id="tab-kamienie" data-tab="kamienie">Kamienie</button>
     <button role="tab" id="tab-pomoc" data-tab="pomoc">Pomoc</button>
   </nav>
   <main id="app" class="stack"></main>
 </div>
 <div class="timer" id="timer" hidden></div>
 <div class="sheet" id="sheet" hidden></div>
+<div class="dp-overlay" id="dp" hidden></div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
 <script>
@@ -376,7 +442,7 @@ svg.star{width:20px;height:20px;fill:currentColor}
 const $=s=>document.querySelector(s);
 const app=$('#app');
 const LS_DATA='gym-data-v1', LS_DRAFT='gym-draft-v1', LS_PREFS='gym-prefs-v1';
-const TABS=['trening','plany','postep','historia','cialo','pomoc','ustawienia'];
+const TABS=['trening','plany','postep','historia','cialo','kamienie','pomoc','ustawienia'];
 
 /* ---------- ustawienia ---------- */
 const DEFAULT_PREFS={lang:'pl',w:'kg',l:'cm',rest:180,sound:true,vib:true,auto:false,pickEq:'all',skin:'normal',calc:{sex:'m',age:'',height:'',weight:'',pal:1.55,goal:0,formula:'mifflin'}};
@@ -440,7 +506,7 @@ function skinCard(k){
 
 /* ---------- tłumaczenia ---------- */
 const STR={
-tab_trening:['Trening','Workout'],tab_plany:['Plany','Plans'],tab_postep:['Postęp','Progress'],tab_historia:['Historia','History'],tab_cialo:['Ciało','Body'],tab_pomoc:['Pomoc','Help'],
+tab_trening:['Trening','Workout'],tab_plany:['Plany','Plans'],tab_postep:['Postęp','Progress'],tab_historia:['Historia','History'],tab_cialo:['Ciało','Body'],tab_pomoc:['Pomoc','Help'],tab_kamienie:['Kamienie','Milestones'],
 settings:['Ustawienia','Settings'],
 sync_local:['Zapis na tym urządzeniu','Saved on this device'],sync_local_t:['Dane zapisują się w tej przeglądarce.','Data is saved in this browser.'],
 sync_connecting:['Łączę z chmurą…','Connecting to cloud…'],
@@ -529,6 +595,19 @@ timer_note:['Przy zablokowanym ekranie telefon może wstrzymać dźwięk. Czas l
 about:['O aplikacji','About'],about_p:['Treningi, plany i pomiary zapisują się {0}. Nikt inny ich nie widzi.','Workouts, plans and measurements are saved {0}. Nobody else can see them.'],
 about_local:['w tej przeglądarce, na tym urządzeniu','in this browser, on this device'],about_cloud:['na Twoim koncie, w chmurze','to your account, in the cloud'],
 back:['← Wróć','← Back'],
+ms_h:['Kamienie milowe','Milestones'],ms_p:['Liczniki rzeczy, z których rezygnujesz, i odznaki za regularne treningi. Każdy dzień się liczy.','Counters for things you are quitting, plus badges for consistent training. Every day counts.'],
+hb_add:['+ Nowe wyzwanie','+ New challenge'],hb_new:['Nowe wyzwanie','New challenge'],hb_pick:['Wybierz gotowe albo wpisz własne.','Pick one or write your own.'],
+hb_name:['Nazwa','Name'],hb_name_ph:['np. Bez chipsów','e.g. No crisps'],hb_icon:['Ikona','Icon'],hb_from:['Liczę od','Counting from'],hb_now:['Od teraz','From now'],hb_date:['Od daty','From a date'],
+hb_cost:['Ile dziennie na to wydawałeś?','How much did it cost you a day?'],hb_optional:['opcjonalnie','optional'],hb_cur:['Waluta','Currency'],hb_start_btn:['Zacznij liczyć','Start counting'],
+hb_since:['od {0}','since {0}'],hb_next:['Następny kamień','Next milestone'],hb_left:['zostało {0}','{0} to go'],hb_all:['Wszystkie kamienie zdobyte. Szacunek!','Every milestone reached. Respect!'],
+hb_saved:['Zaoszczędzone','Saved'],hb_best:['Najdłuższa seria','Longest streak'],hb_restarts:['Nowe starty','Restarts'],hb_options:['Opcje','Options'],
+hb_start_edit:['Zmień datę startu','Change start date'],hb_save:['Zapisz','Save'],cancel:['Anuluj','Cancel'],hb_time:['Godzina','Time'],hb_reset:['Zaczynam od nowa','Start over'],
+hb_reset_p:['Potknięcie się zdarza. Najdłuższa seria zostaje zapisana, a licznik startuje od teraz.','Slip-ups happen. Your longest streak stays saved and the counter restarts from now.'],
+hb_need_name:['Wpisz nazwę albo wybierz gotowe wyzwanie.','Enter a name or pick a ready-made challenge.'],hb_bad_date:['Data startu nie może być w przyszłości.','The start date cannot be in the future.'],
+hb_started:['Liczę! Trzymam kciuki.','Counting! Rooting for you.'],hb_restarted:['Nowy start. Każdy dzień się liczy.','Fresh start. Every day counts.'],hb_deleted:['Wyzwanie usunięte.','Challenge deleted.'],hb_date_saved:['Data startu zmieniona.','Start date updated.'],
+h_short:['godz.','h'],min_short:['min','min'],
+tb_h:['Kamienie treningowe','Training milestones'],tb_p:['Zdobywasz je automatycznie, trenując i zapisując treningi.','Earned automatically as you train and log workouts.'],
+tb_first:['Pierwszy trening','First workout'],tb_n:['{0} treningów','{0} workouts'],tb_weeks:['{0} tyg. z rzędu','{0} weeks in a row'],tb_body:['10 pomiarów ciała','10 body check-ins'],tb_plan:['Własny plan','Your own plan'],
 skin_h:['Wygląd','Appearance'],skin_p:['Motyw zmienia kolory i czcionkę nagłówków. Zmiana działa od razu.','A theme changes colours and the heading font. It applies instantly.'],
 install_h:['Aplikacja na telefonie','App on your phone'],install_btn:['Zainstaluj Repsody','Install Repsody'],
 installed:['Repsody jest zainstalowane i działa także bez internetu.','Repsody is installed and also works offline.'],
@@ -563,7 +642,7 @@ pe_updated:['Ostatnia aktualizacja: {0}','Last updated: {0}'],pe_history:['Ostat
 pe_open:['Pokaż serie','Show sets'],no_values:['jeszcze bez liczb','no numbers yet'],
 plan_updated:['Plan „{0}” zaktualizowany na następny raz.','Plan “{0}” updated for next time.']
 };
-const PLU={exercise:[['ćwiczenie','ćwiczenia','ćwiczeń'],['exercise','exercises']],week:[['tydzień','tygodnie','tygodni'],['week','weeks']],workout:[['trening','treningi','treningów'],['workout','workouts']],set:[['seria','serie','serii'],['set','sets']]};
+const PLU={exercise:[['ćwiczenie','ćwiczenia','ćwiczeń'],['exercise','exercises']],week:[['tydzień','tygodnie','tygodni'],['week','weeks']],workout:[['trening','treningi','treningów'],['workout','workouts']],set:[['seria','serie','serii'],['set','sets']],day:[['dzień','dni','dni'],['day','days']]};
 function L(){return prefs.lang==='en'?1:0}
 function t(k){const e=STR[k];let s=e?e[L()]:k;for(let i=1;i<arguments.length;i++)s=s.split('{'+(i-1)+'}').join(arguments[i]);return s}
 function plu(n,k){const f=PLU[k][L()];if(L())return n===1?f[0]:f[1];return n===1?f[0]:(n%10>=2&&n%10<=4&&(n%100<10||n%100>=20))?f[1]:f[2]}
@@ -665,7 +744,7 @@ function fmtTime(sec){sec=Math.max(0,Math.ceil(sec));return Math.floor(sec/60)+'
 function normalize(s){
   s=s||{};
   const custom=(Array.isArray(s.custom)?s.custom:[]).map(c=>typeof c==='string'?{name:c,group:'moje'}:c).filter(c=>c&&c.name);
-  return{workouts:Array.isArray(s.workouts)?s.workouts:[],body:Array.isArray(s.body)?s.body:[],favs:Array.isArray(s.favs)?s.favs.filter(x=>typeof x==='string'):[],custom,plans:(Array.isArray(s.plans)?s.plans:[]).map(p=>({...p,days:(p.days||[]).map(d=>({...d,weekdays:d.weekdays||[],items:(d.items||[]).map(normItem)}))}))};
+  return{workouts:Array.isArray(s.workouts)?s.workouts:[],body:Array.isArray(s.body)?s.body:[],favs:Array.isArray(s.favs)?s.favs.filter(x=>typeof x==='string'):[],habits:Array.isArray(s.habits)?s.habits.filter(h=>h&&h.start&&h.name):[],custom,plans:(Array.isArray(s.plans)?s.plans:[]).map(p=>({...p,days:(p.days||[]).map(d=>({...d,weekdays:d.weekdays||[],items:(d.items||[]).map(normItem)}))}))};
 }
 function normItem(it){
   if(Array.isArray(it.sets))return{name:it.name,reps:it.reps||'',lastDate:it.lastDate||null,sets:it.sets.map(x=>({w:x&&x.w!=null&&isFinite(x.w)?+x.w:null,r:x&&x.r!=null&&isFinite(x.r)?+x.r:null}))};
@@ -744,6 +823,7 @@ function setSync(k){syncKey=k;const el=$('#sync');const s=SYNC[k];el.className='
 function toDoc(kind,o){
   if(kind==='workouts')return{type:'workout',date:o.date,title:o.title||'',planId:o.planId||null,dayId:o.dayId||null,exercises:o.exercises};
   if(kind==='plans')return{type:'plan',name:o.name,active:!!o.active,days:o.days};
+  if(kind==='habits')return{type:'habit',name:o.name,icon:o.icon||'',start:o.start,cost:o.cost||0,cur:o.cur||'',best:o.best||0,attempts:o.attempts||[]};
   return{type:'body',date:o.date,weight:o.weight==null?null:o.weight,m:o.m||{}};
 }
 function goLocal(){if(unsub){try{unsub()}catch(e){}unsub=null}backend='local';setSync('error');persistLocal()}
@@ -780,13 +860,14 @@ async function initCloud(){
       if(!migrated){
         migrated=true;
         const loc=normalize(lsGet(LS_DATA));
-        if(snap.empty&&(loc.favs.length||loc.workouts.length||loc.body.length||loc.custom.length||loc.plans.length)){backend='cloud';setSync('cloud');migrateUp(loc);return}
+        if(snap.empty&&(loc.habits.length||loc.favs.length||loc.workouts.length||loc.body.length||loc.custom.length||loc.plans.length)){backend='cloud';setSync('cloud');migrateUp(loc);return}
       }
     }
-    const s={workouts:[],body:[],custom:[],plans:[],favs:[]};
+    const s={workouts:[],body:[],custom:[],plans:[],favs:[],habits:[]};
     snap.docs.forEach(d=>{const v=d.data();if(!v)return;
       if(v.type==='workout')s.workouts.push({id:d.id,date:v.date,title:v.title||'',planId:v.planId||null,dayId:v.dayId||null,exercises:v.exercises||[]});
       else if(v.type==='body')s.body.push({id:d.id,date:v.date,weight:v.weight,m:v.m||(v.waist>0?{talia:v.waist}:{})});
+      else if(v.type==='habit')s.habits.push({id:d.id,name:v.name,icon:v.icon,start:v.start,cost:v.cost,cur:v.cur,best:v.best,attempts:v.attempts||[]});
       else if(v.type==='plan')s.plans.push({id:d.id,name:v.name,active:!!v.active,days:v.days||[]});
       else if(d.id==='settings'){s.custom=Array.isArray(v.custom)?v.custom.slice():[];s.favs=Array.isArray(v.favs)?v.favs.slice():[]}
     });
@@ -800,6 +881,7 @@ async function migrateUp(loc){
     for(const w of loc.workouts)await col.doc(w.id).set(toDoc('workouts',w));
     for(const b of loc.body)await col.doc(b.id).set(toDoc('body',b));
     for(const p of loc.plans)await col.doc(p.id).set(toDoc('plans',p));
+    for(const h of loc.habits)await col.doc(h.id).set(toDoc('habits',h));
     if(loc.custom.length||loc.favs.length)await col.doc('settings').set({type:'settings',custom:loc.custom,favs:loc.favs});
   }catch(e){goLocal()}
 }
@@ -941,7 +1023,7 @@ function viewTrening(){
   const empty=!draft.exercises.length;
   return `<section class="card">
       <div class="row between">
-        <div style="flex:1;min-width:160px"><label for="d-date">${t('workout_date')}</label><input type="date" id="d-date" value="${esc(draft.date)}"></div>
+        <div style="flex:1;min-width:160px"><label for="d-date-btn">${t('workout_date')}</label>${dpField('d-date',draft.date)}</div>
         ${draft.title?`<div class="draft-title"><span class="tag">${t('from_plan')}</span><b>${esc(draft.title)}</b></div>`:''}
       </div>
       ${draft.id?`<p class="small muted" style="margin:8px 0 0">${t('editing_saved')}</p>`:''}
@@ -1179,7 +1261,7 @@ function viewCialo(){
     <h3>${t('new_measure')}</h3>
     <form id="body-form" style="margin-top:10px">
       <div class="meas-grid">
-        <div class="full"><label for="b-date">${t('date')}</label><input type="date" id="b-date" value="${today()}" required></div>
+        <div class="full"><label for="b-date-btn">${t('date')}</label>${dpField('b-date',today(),{max:today()})}</div>
         ${field('weight',t('weight'),wU())}
       </div>
       <h4 class="sub">${t('circ')}</h4>
@@ -1272,8 +1354,107 @@ function viewPomoc(){
   </section>`;
 }
 
+/* ---------- widok: Kamienie milowe ---------- */
+const HB_PRESETS=[['alk','🍺',['Bez alkoholu','No alcohol']],['papierosy','🚬',['Bez papierosów','No cigarettes']],['fastfood','🍔',['Bez fast foodu','No fast food']],['slodycze','🍫',['Bez słodyczy','No sweets']],['napoje','🥤',['Bez słodkich napojów','No sugary drinks']],['energetyki','⚡',['Bez energetyków','No energy drinks']],['social','📱',['Mniej scrollowania','Less scrolling']],['hazard','🎰',['Bez hazardu','No gambling']]];
+const HB_ICONS=['🚫','🍺','🚬','🍔','🍫','🥤','⚡','📱','🎮','☕','🍕','🎰','💪','🌙','💧','🧘'];
+const HB_STEPS=[1,3,7,14,30,60,90,180,365,730];
+const HB_LBL=[['1 dzień','3 dni','1 tydzień','2 tygodnie','1 miesiąc','2 miesiące','3 miesiące','pół roku','1 rok','2 lata'],['1 day','3 days','1 week','2 weeks','1 month','2 months','3 months','6 months','1 year','2 years']];
+let hbForm=null;
+const DAY=86400000;
+function hbElapsed(h){return Math.max(0,Date.now()-new Date(h.start).getTime())}
+function hbBest(h){return Math.max(h.best||0,hbElapsed(h))}
+function dtLocal(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+'T'+pad(d.getHours())+':'+pad(d.getMinutes())}
+function dtShow(iso){const d=new Date(iso);return dShort(ymd(d))+(L()?' '+d.getFullYear():'.'+d.getFullYear())+', '+pad(d.getHours())+':'+pad(d.getMinutes())}
+function durTxt(ms){const d=Math.floor(ms/DAY),h=Math.floor(ms%DAY/3600000),m=Math.floor(ms%3600000/60000);
+  if(d>0)return d+' '+plu(d,'day')+(h?' '+h+' '+t('h_short'):'');
+  if(h>0)return h+' '+t('h_short')+' '+m+' '+t('min_short');
+  return m+' '+t('min_short');}
+function habitCard(h){
+  const ms=hbElapsed(h),days=ms/DAY,dInt=Math.floor(days);
+  const ni=HB_STEPS.findIndex(s=>days<s);
+  const prev=ni<=0?0:HB_STEPS[ni-1],next=ni<0?null:HB_STEPS[ni];
+  const pct=next?Math.min(100,(days-prev)/(next-prev)*100):100;
+  const left=next?(next*DAY-ms):0;
+  const badges=HB_STEPS.map((s,i)=>`<span class="hb-badge${days>=s?' on':''}" title="${HB_LBL[L()][i]}">${HB_LBL[L()][i]}</span>`).join('');
+  const saved=h.cost>0?h.cost*days:0;
+  const big=dInt>=1?`<span class="hb-num num">${dInt}</span><span class="hb-unit">${plu(dInt,'day')}</span><span class="hb-sub num">${Math.floor(ms%DAY/3600000)} ${t('h_short')} ${Math.floor(ms%3600000/60000)} ${t('min_short')}</span>`
+    :`<span class="hb-num num">${Math.floor(ms/3600000)}</span><span class="hb-unit">${t('h_short')}</span><span class="hb-sub num">${Math.floor(ms%3600000/60000)} ${t('min_short')}</span>`;
+  const best=hbBest(h);
+  return `<article class="card habit">
+    <div class="hb-head">
+      <span class="hb-ico" aria-hidden="true">${esc(h.icon||'🚫')}</span>
+      <div class="hb-title"><h3>${esc(h.name)}</h3><span class="small muted">${t('hb_since',dtShow(h.start))}</span></div>
+    </div>
+    <div class="hb-main">${big}</div>
+    ${next?`<div class="hb-next"><div class="row between small"><span>${t('hb_next')}: <b>${HB_LBL[L()][ni]}</b></span><span class="muted">${t('hb_left',durTxt(left))}</span></div><div class="hb-bar"><i style="width:${pct.toFixed(1)}%"></i></div></div>`:`<p class="hint">${t('hb_all')}</p>`}
+    <div class="hb-badges">${badges}</div>
+    <div class="hb-stats">
+      ${saved>0?`<div><span class="mk">${t('hb_saved')}</span><b class="num">${fmt(saved,0)} ${esc(h.cur||'zł')}</b></div>`:''}
+      <div><span class="mk">${t('hb_best')}</span><b class="num">${durTxt(best)}</b></div>
+      ${(h.attempts||[]).length?`<div><span class="mk">${t('hb_restarts')}</span><b class="num">${h.attempts.length}</b></div>`:''}
+    </div>
+    <details class="hb-more"><summary>${t('hb_options')}</summary>
+      <div class="hb-opts">
+        <div><label>${t('hb_start_edit')}</label><div class="dt-row">${dpField('hbd-'+esc(h.id)+'-d',ymd(new Date(h.start)),{max:today()})}<input type="time" class="tm" id="hbd-${esc(h.id)}-t" value="${pad(new Date(h.start).getHours())+':'+pad(new Date(h.start).getMinutes())}" aria-label="${t('hb_time')}"><button data-action="hb-date" data-id="${esc(h.id)}" style="flex:none">${t('hb_save')}</button></div></div>
+        <div class="row"><button data-action="hb-reset" data-id="${esc(h.id)}">${t('hb_reset')}</button><button class="ghost" data-action="hb-del" data-id="${esc(h.id)}">${t('remove')}</button></div>
+        <p class="small muted" style="margin:0">${t('hb_reset_p')}</p>
+      </div>
+    </details>
+  </article>`;
+}
+function habitForm(){
+  const f=hbForm;
+  return `<section class="card hb-form">
+    <div class="row between"><h3>${t('hb_new')}</h3><button class="ghost small" data-action="hb-cancel">${t('cancel_changes')}</button></div>
+    <p class="small muted" style="margin:4px 0 8px">${t('hb_pick')}</p>
+    <div class="hb-presets">${HB_PRESETS.map(([k,ic,n])=>`<button class="hb-preset" data-action="hb-preset" data-k="${k}" aria-pressed="${f.preset===k}"><span aria-hidden="true">${ic}</span>${esc(n[L()])}</button>`).join('')}</div>
+    <div class="meas-grid" style="margin-top:12px">
+      <div class="full"><label for="hb-name">${t('hb_name')}</label><input id="hb-name" data-hb="name" value="${esc(f.name)}" placeholder="${t('hb_name_ph')}"></div>
+      <div class="full"><label>${t('hb_icon')}</label><div class="hb-icons">${HB_ICONS.map(ic=>`<button class="hb-icon" data-action="hb-icon" data-v="${ic}" aria-pressed="${f.icon===ic}">${ic}</button>`).join('')}</div></div>
+      <div class="full"><label>${t('hb_from')}</label>${seg('hbform.when',[['now',t('hb_now')],['date',t('hb_date')]])}
+        ${f.when==='date'?`<div class="dt-row" style="margin-top:8px">${dpField('hb-start-d',f.startDate||today(),{max:today(),hb:'startDate'})}<input type="time" class="tm" data-hb="startTime" value="${esc(f.startTime||'08:00')}" aria-label="${t('hb_time')}"></div>`:''}</div>
+      <div><label for="hb-cost">${t('hb_cost')}</label><input id="hb-cost" data-hb="cost" inputmode="decimal" value="${esc(f.cost)}" placeholder="${t('hb_optional')}"></div>
+      <div><label for="hb-cur">${t('hb_cur')}</label><input id="hb-cur" data-hb="cur" value="${esc(f.cur)}"></div>
+    </div>
+    <button class="primary" data-action="hb-save" style="margin-top:14px">${t('hb_start_btn')}</button>
+  </section>`;
+}
+function longestWeekStreak(){
+  const weeks=[...new Set(state.workouts.map(w=>weekStart(w.date)))].sort();
+  let best=0,cur=0,prev=null;
+  weeks.forEach(w=>{if(prev){const d=parseD(prev);d.setDate(d.getDate()+7);cur=ymd(d)===w?cur+1:1}else cur=1;best=Math.max(best,cur);prev=w});
+  return best;
+}
+function trainingBadges(){
+  const n=state.workouts.length;
+  let vol=0;state.workouts.forEach(w=>(w.exercises||[]).forEach(e=>validSets(e.sets).forEach(s=>vol+=s.w*s.r)));
+  const ws=longestWeekStreak(),bodyN=state.body.length,plans=state.plans.length;
+  const ton=wU()==='kg'?1000:1000/KG_LB;
+  const tUnit=wU()==='kg'?'t':'k lb';
+  const defs=[
+    ['🏁',t('tb_first'),n,1],['🔟',t('tb_n',10),n,10],['💯',t('tb_n',25),n,25],['🔥',t('tb_n',50),n,50],['🏆',t('tb_n',100),n,100],['👑',t('tb_n',250),n,250],
+    ['📅',t('tb_weeks',4),ws,4],['📅',t('tb_weeks',8),ws,8],['📅',t('tb_weeks',12),ws,12],['🗓️',t('tb_weeks',26),ws,26],['🗓️',t('tb_weeks',52),ws,52],
+    ['🏋️','10 '+tUnit,vol/ton,10],['🏋️','50 '+tUnit,vol/ton,50],['🏋️','100 '+tUnit,vol/ton,100],['🏋️','500 '+tUnit,vol/ton,500],['🏋️','1000 '+tUnit,vol/ton,1000],
+    ['📏',t('tb_body'),bodyN,10],['🧭',t('tb_plan'),plans,1]
+  ];
+  return defs.map(([ic,lab,val,goal])=>{const on=val>=goal;const p=Math.min(100,val/goal*100);
+    return `<div class="tbadge${on?' on':''}"><span class="tb-i" aria-hidden="true">${ic}</span><span class="tb-l">${esc(lab)}</span>${on?`<span class="tb-ok">✓</span>`:`<span class="tb-p"><i style="width:${p.toFixed(0)}%"></i></span><span class="tb-v num">${fmt(Math.min(val,goal),val<10?1:0)} / ${goal}</span>`}</div>`}).join('');
+}
+function viewKamienie(){
+  const hs=state.habits.slice().sort((a,b)=>hbElapsed(b)-hbElapsed(a));
+  const earned=(()=>{let c=0;return c})();
+  return `<section class="card intro"><h2>${t('ms_h')}</h2><p class="small muted" style="margin:4px 0 0">${t('ms_p')}</p></section>
+    ${hbForm?habitForm():''}
+    ${hs.map(habitCard).join('')}
+    ${!hbForm?`<button class="big-add" data-action="hb-new">${t('hb_add')}</button>`:''}
+    <h2 class="section-h">${t('tb_h')}</h2>
+    <p class="small muted" style="margin:-6px 0 0">${t('tb_p')}</p>
+    <section class="card"><div class="tb-grid">${trainingBadges()}</div></section>`;
+}
+setInterval(()=>{if(tab==='kamienie'&&!picker.open){const a=document.activeElement;if(!a||!/INPUT|SELECT|TEXTAREA/.test(a.tagName)){if(!document.querySelector('.hb-more[open]'))render()}}},60000);
+
 /* ---------- widok: Ustawienia ---------- */
-function prefGet(k){return k.startsWith('calc.')?prefs.calc[k.slice(5)]:prefs[k]}
+function prefGet(k){if(k.startsWith('hbform.'))return hbForm?hbForm[k.slice(7)]:'';return k.startsWith('calc.')?prefs.calc[k.slice(5)]:prefs[k]}
 function seg(k,opts){return `<div class="seg" role="group">${opts.map(([v,l])=>`<button data-action="pref" data-k="${k}" data-v="${v}" aria-pressed="${String(prefGet(k))===String(v)}">${l}</button>`).join('')}</div>`}
 function viewUstawienia(){
   SKIN_ORDER.forEach(ensureFont);
@@ -1447,6 +1628,60 @@ function starSvg(cls){return `<svg class="star ${cls||''}" viewBox="0 0 24 24" a
 function isFav(n){return state.favs.includes(n)}
 function toggleFav(n){const i=state.favs.indexOf(n);if(i>=0)state.favs.splice(i,1);else state.favs.push(n);persistLocal();saveCustom()}
 
+/* ---------- własny wybór daty (w stylu motywu) ---------- */
+const CAL_ICO='<svg class="dp-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 9.5h17M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
+function dpField(id,val,opts){
+  opts=opts||{};
+  return `<div class="dp-field"><input type="hidden" id="${id}" value="${esc(val)}"${opts.hb?` data-hb="${opts.hb}"`:''}><button type="button" class="dp-btn" id="${id}-btn" data-action="dp-open" data-for="${id}" data-max="${opts.max||''}" aria-haspopup="dialog"><span>${val?dLong(val):'—'}</span>${CAL_ICO}</button></div>`;
+}
+const dpEl=$('#dp');
+let dp=null;
+function openDP(btn){
+  const id=btn.dataset.for,inp=document.getElementById(id);if(!inp)return;
+  const val=inp.value||today();
+  dp={id,val,view:val.slice(0,7),max:btn.dataset.max||'',btn:btn.id,label:(btn.closest('div')&&btn.closest('.dp-field').previousElementSibling&&btn.closest('.dp-field').previousElementSibling.textContent)||''};
+  dpEl.hidden=false;renderDP();
+  setTimeout(()=>{const s=dpEl.querySelector('.dp-day[aria-pressed="true"]')||dpEl.querySelector('.dp-day.today');if(s)s.focus()},0);
+}
+function closeDP(){dp=null;dpEl.hidden=true;dpEl.innerHTML=''}
+function renderDP(){
+  if(!dp)return;
+  const [y,m]=dp.view.split('-').map(Number);
+  const first=new Date(y,m-1,1),off=(first.getDay()+6)%7;
+  const start=new Date(y,m-1,1-off),td=today();
+  let cells=WD().map(d=>`<span class="dp-wd" aria-hidden="true">${d}</span>`).join('');
+  for(let i=0;i<42;i++){
+    const d=new Date(start);d.setDate(start.getDate()+i);const ds=ymd(d);
+    const out=d.getMonth()!==m-1,dis=dp.max&&ds>dp.max;
+    cells+=`<button type="button" class="dp-day${out?' out':''}${ds===td?' today':''}" data-action="dp-pick" data-d="${ds}" aria-pressed="${ds===dp.val}" ${dis?'disabled':''} aria-label="${dLong(ds)}">${d.getDate()}</button>`;
+  }
+  const canNext=!dp.max||(y*12+m)<(+dp.max.slice(0,4)*12+ +dp.max.slice(5,7));
+  dpEl.innerHTML=`<div class="dp-panel" role="dialog" aria-modal="true" aria-label="${esc(dp.label||t('date'))}">
+    <div class="dp-sel"><span class="lb-k">${esc(dp.label||t('date'))}</span><b>${dLong(dp.val)}</b></div>
+    <div class="dp-head">
+      <button type="button" data-action="dp-prev" aria-label="${t('prev_month')}">‹</button>
+      <span class="dp-title">${MONTHS[L()][m-1]} ${y}</span>
+      <button type="button" data-action="dp-next" aria-label="${t('next_month')}" ${canNext?'':'disabled'}>›</button>
+    </div>
+    <div class="dp-grid">${cells}</div>
+    <div class="dp-foot"><button type="button" class="ghost" data-action="dp-cancel">${t('cancel')}</button><button type="button" data-action="dp-pick" data-d="${td}" ${dp.max&&td>dp.max?'disabled':''}>${t('today_chip')}</button></div>
+  </div>`;
+}
+function dpSet(ds){
+  const inp=document.getElementById(dp.id),btn=document.getElementById(dp.btn);
+  if(inp){inp.value=ds;inp.dispatchEvent(new Event('input',{bubbles:true}));inp.dispatchEvent(new Event('change',{bubbles:true}))}
+  if(btn&&btn.isConnected){const sp=btn.querySelector('span');if(sp)sp.textContent=dLong(ds);btn.focus()}
+  closeDP();
+}
+dpEl.addEventListener('click',e=>{
+  if(e.target===dpEl){closeDP();return}
+  const b=e.target.closest('[data-action]');if(!b||!dp)return;const a=b.dataset.action;
+  if(a==='dp-cancel')closeDP();
+  else if(a==='dp-pick')dpSet(b.dataset.d);
+  else if(a==='dp-prev'||a==='dp-next'){const [y,m]=dp.view.split('-').map(Number);const d=new Date(y,m-1+(a==='dp-next'?1:-1),1);dp.view=d.getFullYear()+'-'+pad(d.getMonth()+1);renderDP()}
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&dp)closeDP()});
+
 /* ---------- wybór ćwiczenia ---------- */
 const sheet=$('#sheet');
 function pickerAdded(){
@@ -1554,11 +1789,12 @@ function renderChrome(){
   document.querySelectorAll('#tabs [data-tab]').forEach(b=>{b.textContent=t('tab_'+b.dataset.tab);b.setAttribute('aria-selected',String(b.dataset.tab===tab))});
   const g=$('#gear');g.setAttribute('aria-label',t('settings'));g.title=t('settings');g.setAttribute('aria-pressed',String(tab==='ustawienia'));
   setSync(syncKey);
+  const at=document.querySelector('#tabs [aria-selected="true"]');if(at&&at.scrollIntoView){const n=$('#tabs');const l=at.offsetLeft-n.offsetLeft,r=l+at.offsetWidth;if(l<n.scrollLeft||r>n.scrollLeft+n.clientWidth)n.scrollLeft=Math.max(0,l-24)}
 }
 function render(){
   renderChrome();
   const scrollY=window.scrollY;
-  app.innerHTML=tab==='trening'?viewTrening():tab==='plany'?viewPlany():tab==='postep'?viewPostep():tab==='historia'?viewHistoria():tab==='cialo'?viewCialo():tab==='pomoc'?viewPomoc():viewUstawienia();
+  app.innerHTML=tab==='trening'?viewTrening():tab==='plany'?viewPlany():tab==='postep'?viewPostep():tab==='historia'?viewHistoria():tab==='cialo'?viewCialo():tab==='pomoc'?viewPomoc():tab==='kamienie'?viewKamienie():viewUstawienia();
   if(tab==='trening')draft.exercises.forEach((_,i)=>updateBadges(i));
   window.scrollTo(0,scrollY);
   renderTimer();
@@ -1649,6 +1885,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&picker.open)closePi
 app.addEventListener('click',async e=>{
   const b=e.target.closest('[data-action]');if(!b)return;
   const a=b.dataset.action,ei=+b.dataset.ei,si=+b.dataset.si,di=+b.dataset.di,ii=+b.dataset.ii;
+  if(a==='dp-open'){openDP(b);return}
   if(a==='open-picker')openPicker({kind:'draft'});
   else if(a==='add-set'){const ex=draft.exercises[ei];const l=ex.sets[ex.sets.length-1]||{w:'',r:''};ex.sets.push({w:l.w,r:ex.target?'':l.r});persistDraft();render();const el=document.getElementById('r-'+ei+'-'+(ex.sets.length-1));if(el)el.focus({preventScroll:true})}
   else if(a==='rm-set'){const ex=draft.exercises[ei];ex.sets.splice(si,1);if(!ex.sets.length)ex.sets.push({w:'',r:''});persistDraft();render()}
@@ -1664,11 +1901,39 @@ app.addEventListener('click',async e=>{
     persistDraft();calSel=null;setTab('trening');
   }
   else if(a==='install'&&installEvt){installEvt.prompt();try{await installEvt.userChoice}catch(e){}installEvt=null;render()}
+  else if(a==='hb-new'){hbForm={preset:'',name:'',icon:'🚫',when:'now',start:'',cost:'',cur:L()?'':'zł'};render();window.scrollTo(0,0)}
+  else if(a==='hb-cancel'){hbForm=null;render()}
+  else if(a==='hb-preset'){const p=HB_PRESETS.find(x=>x[0]===b.dataset.k);if(p&&hbForm){hbForm.preset=p[0];hbForm.name=p[2][L()];hbForm.icon=p[1];render()}}
+  else if(a==='hb-icon'){if(hbForm){hbForm.icon=b.dataset.v;render()}}
+  else if(a==='hb-save'){
+    const f=hbForm;if(!f)return;const name=(f.name||'').trim();
+    if(!name){toast(t('hb_need_name'));const i=$('#hb-name');if(i)i.focus();return}
+    let start=new Date();if(f.when==='date'&&f.startDate){start=new Date(f.startDate+'T'+(f.startTime||'00:00'));if(isNaN(start))start=new Date()}
+    if(start.getTime()>Date.now()+60000){toast(t('hb_bad_date'));return}
+    const c=num(f.cost);
+    hbForm=null;
+    await saveDoc('habits',{id:genId('hb-'),name,icon:f.icon||'🚫',start:start.toISOString(),cost:c>0?c:0,cur:(f.cur||'').trim(),best:0,attempts:[]});
+    toast(t('hb_started'));
+  }
+  else if(a==='hb-reset'){
+    if(!confirmClick(b,t('sure')))return;
+    const h=state.habits.find(x=>x.id===b.dataset.id);if(!h)return;
+    const c=clone(h),now=new Date();c.best=hbBest(h);c.attempts=(c.attempts||[]).concat([{start:h.start,end:now.toISOString()}]).slice(-50);c.start=now.toISOString();
+    await saveDoc('habits',c);toast(t('hb_restarted'));
+  }
+  else if(a==='hb-date'){
+    const h=state.habits.find(x=>x.id===b.dataset.id);if(!h)return;
+    const dv=document.getElementById('hbd-'+h.id+'-d').value,tv=document.getElementById('hbd-'+h.id+'-t').value||'00:00';const v=dv;const d=new Date(dv+'T'+tv);
+    if(!v||isNaN(d)){return}if(d.getTime()>Date.now()+60000){toast(t('hb_bad_date'));return}
+    const c=clone(h);c.start=d.toISOString();await saveDoc('habits',c);toast(t('hb_date_saved'));
+  }
+  else if(a==='hb-del'){if(!confirmClick(b,t('sure_delete')))return;await removeDoc('habits',b.dataset.id);toast(t('hb_deleted'))}
   else if(a==='demo-on'){demo=true;render()}
   else if(a==='demo-off'){demo=false;render()}
   else if(a==='goto'){setTab(b.dataset.tab)}
   else if(a==='pref'){
     const k=b.dataset.k;let v=b.dataset.v;
+    if(k.startsWith('hbform.')){if(hbForm){hbForm[k.slice(7)]=v;if(v==='date'&&!hbForm.startDate){hbForm.startDate=today();hbForm.startTime=pad(new Date().getHours())+':00'}}render();return}
     if(k.startsWith('calc.')){prefs.calc[k.slice(5)]=v;savePrefs();render();return}
     if(k==='rest')v=+v;else if(v==='true'||v==='false')v=v==='true';
     prefs[k]=v;savePrefs();
@@ -1722,6 +1987,7 @@ app.addEventListener('click',async e=>{
 
 app.addEventListener('input',e=>{
   const x=e.target;
+  if(x.dataset.hb&&hbForm){hbForm[x.dataset.hb]=x.value;if(x.dataset.hb==='name')hbForm.preset='';return}
   if(x.dataset.calc){prefs.calc[x.dataset.calc]=x.value;savePrefs();const o=$('#kcal-out');if(o)o.innerHTML=calcOut();return}
   if(x.dataset.f){const ei=+x.dataset.ei,si=+x.dataset.si;const s=draft.exercises[ei]&&draft.exercises[ei].sets[si];if(!s)return;s[x.dataset.f]=x.value;persistDraft();updateBadges(ei)}
   else if(x.dataset.pf&&planDraft){
