@@ -483,6 +483,9 @@ body.in-session .wrap{padding-top:calc(var(--ssh,140px) + 14px)}
 .ss-prog{display:block;width:120px;height:4px;border-radius:2px;background:var(--line);margin-top:6px;overflow:hidden}
 .ss-prog i{display:block;height:100%;background:var(--good)}
 .ss-cnt{font-size:12px;color:var(--muted);margin-top:2px}
+.sync.tappable{cursor:pointer}
+.g-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;min-height:50px;font-size:16px;font-weight:600;background:var(--surface);border:1px solid var(--line);border-radius:999px}
+.g-logo{width:26px;height:26px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-family:Arial,sans-serif;color:#fff;background:conic-gradient(#EA4335 0 25%,#FBBC05 0 50%,#34A853 0 75%,#4285F4 0)}
 .toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:12px 16px;border-radius:10px;font-weight:600;font-size:15px;max-width:calc(100% - 32px);box-shadow:0 6px 24px rgba(0,0,0,.25);z-index:20}
 .toast[hidden]{display:none}
 @media (prefers-reduced-motion:no-preference){
@@ -677,6 +680,16 @@ timer_note:['Przy zablokowanym ekranie telefon może wstrzymać dźwięk. Czas l
 about:['O aplikacji','About'],about_p:['Treningi, plany i pomiary zapisują się {0}. Nikt inny ich nie widzi.','Workouts, plans and measurements are saved {0}. Nobody else can see them.'],
 about_local:['w tej przeglądarce, na tym urządzeniu','in this browser, on this device'],about_cloud:['na Twoim koncie, w chmurze','to your account, in the cloud'],
 back:['← Wróć','← Back'],
+g_h:['Konto Google i synchronizacja','Google account and sync'],
+g_p:['Połącz swoje konto Google, a dane zapiszą się w Twojej chmurze (na Dysku Google). Na telefonie i komputerze zobaczysz te same treningi.','Connect your Google account and your data is saved to your cloud (Google Drive). Your phone and computer show the same workouts.'],
+g_connect:['Połącz z Google','Connect with Google'],g_as:['Połączono: {0}','Connected: {0}'],g_sync_now:['Synchronizuj teraz','Sync now'],g_disconnect:['Odłącz','Disconnect'],
+g_privacy:['Aplikacja widzi tylko swój własny plik z danymi, a nie resztę Twojego Dysku.','The app only sees its own data file, not the rest of your Drive.'],
+g_how:['Synchronizacja dzieje się sama po zapisaniu treningu, pomiaru czy planu. Na nowym urządzeniu połącz to samo konto Google, a dane się połączą.','Sync happens automatically after you save a workout, measurement or plan. On a new device connect the same Google account and your data will merge.'],
+g_need_id:['Żeby włączyć logowanie przez Google, wpisz klucz aplikacji (Client ID) z Google Cloud. Robi się go raz, potem łączysz się jednym kliknięciem.','To enable Google sign-in, enter the app key (Client ID) from Google Cloud. You set it up once, then connect with one tap.'],
+g_cid:['Client ID z Google Cloud','Client ID from Google Cloud'],g_cid_saved:['Klucz zapisany. Teraz kliknij Połącz z Google.','Key saved. Now tap Connect with Google.'],g_cid_bad:['To nie wygląda na Client ID. Powinien kończyć się na .apps.googleusercontent.com','That does not look like a Client ID. It should end with .apps.googleusercontent.com'],
+g_syncing:['Synchronizuję…','Syncing…'],g_needtap:['Dotknij, aby zsynchronizować','Tap to sync'],g_offline:['Brak internetu: zsynchronizuję później','Offline: will sync later'],g_error:['Nie udało się zsynchronizować. Spróbuj ponownie.','Sync failed. Try again.'],
+g_last:['Zsynchronizowano: {0}','Synced: {0}'],g_connected:['Połączono z Google','Connected to Google'],g_first_ok:['Połączono z Google. Dane są w Twojej chmurze.','Connected to Google. Your data is in your cloud.'],
+g_cancelled:['Logowanie przerwane.','Sign-in cancelled.'],g_chip:['Google','Google'],
 prep_h:['Nowy trening','New workout'],prep_p:['Wybierz ćwiczenia. Czas ruszy dopiero, gdy klikniesz START.','Pick your exercises. The clock starts only when you tap START.'],
 prep_start:['▶ START','▶ START'],prep_name:['Nazwa treningu (opcjonalnie)','Workout name (optional)'],prep_name_ph:['np. Klatka i triceps','e.g. Chest and triceps'],
 set_done:['Seria zrobiona','Set done'],ex_more:['Więcej opcji','More options'],ex_up:['↑ Wyżej','↑ Up'],ex_down:['↓ Niżej','↓ Down'],ex_swap:['⇄ Zamień','⇄ Swap'],
@@ -855,7 +868,7 @@ function fmtTime(sec){sec=Math.max(0,Math.ceil(sec));return Math.floor(sec/60)+'
 function normalize(s){
   s=s||{};
   const custom=(Array.isArray(s.custom)?s.custom:[]).map(c=>typeof c==='string'?{name:c,group:'moje'}:c).filter(c=>c&&c.name);
-  return{workouts:Array.isArray(s.workouts)?s.workouts:[],body:Array.isArray(s.body)?s.body:[],favs:Array.isArray(s.favs)?s.favs.filter(x=>typeof x==='string'):[],habits:Array.isArray(s.habits)?s.habits.filter(h=>h&&h.start&&h.name):[],custom,plans:(Array.isArray(s.plans)?s.plans:[]).map(p=>({...p,days:(p.days||[]).map(d=>({...d,weekdays:d.weekdays||[],items:(d.items||[]).map(normItem)}))}))};
+  return{del:s.del&&typeof s.del==='object'?s.del:{},metaU:+s.metaU||0,workouts:Array.isArray(s.workouts)?s.workouts:[],body:Array.isArray(s.body)?s.body:[],favs:Array.isArray(s.favs)?s.favs.filter(x=>typeof x==='string'):[],habits:Array.isArray(s.habits)?s.habits.filter(h=>h&&h.start&&h.name):[],custom,plans:(Array.isArray(s.plans)?s.plans:[]).map(p=>({...p,days:(p.days||[]).map(d=>({...d,weekdays:d.weekdays||[],items:(d.items||[]).map(normItem)}))}))};
 }
 function normItem(it){
   if(Array.isArray(it.sets))return{name:it.name,reps:it.reps||'',lastDate:it.lastDate||null,sets:it.sets.map(x=>({w:x&&x.w!=null&&isFinite(x.w)?+x.w:null,r:x&&x.r!=null&&isFinite(x.r)?+x.r:null}))};
@@ -932,7 +945,9 @@ function scheduledDay(ds){const p=activePlan();if(!p)return null;const i=wdIndex
 /* ---------- zapis: chmura (prywatnie) albo to urządzenie ---------- */
 const SYNC={local:['sync_local','','sync_local_t'],connecting:['sync_connecting','',''],cloud:['sync_cloud','ok','sync_cloud_t'],slow:['sync_slow','warn','sync_slow_t'],error:['sync_error','warn','sync_error_t']};
 let syncKey='local';
-function setSync(k){syncKey=k;const el=$('#sync');const s=SYNC[k];el.className='sync '+s[1];el.title=s[2]?t(s[2]):'';el.querySelector('span').textContent=t(s[0])}
+function setSync(k){syncKey=k;const el=$('#sync');
+  if(typeof gOn==='function'&&gOn()){const ok=gState==='ok'||gState==='';el.className='sync '+(ok?'ok':gState==='syncing'?'':'warn')+' tappable';el.title=gStatusTxt();el.querySelector('span').textContent=gState==='syncing'?t('g_syncing'):gState==='needtap'?t('g_needtap'):gState==='offline'||gState==='error'?gStatusTxt():t('g_chip')+' ✓';return}
+  const s=SYNC[k];el.className='sync '+s[1];el.title=s[2]?t(s[2]):'';el.querySelector('span').textContent=t(s[0])}
 function toDoc(kind,o){
   if(kind==='workouts')return{type:'workout',date:o.date,title:o.title||'',planId:o.planId||null,dayId:o.dayId||null,duration:o.duration||0,exercises:o.exercises};
   if(kind==='plans')return{type:'plan',name:o.name,active:!!o.active,days:o.days};
@@ -942,17 +957,18 @@ function toDoc(kind,o){
 function goLocal(){if(unsub){try{unsub()}catch(e){}unsub=null}backend='local';setSync('error');persistLocal()}
 async function saveDoc(kind,o,noRender){
   if(backend==='cloud'){try{await col.doc(o.id).set(toDoc(kind,o));return}catch(e){goLocal()}}
+  o.u=Date.now();
   const arr=state[kind];const i=arr.findIndex(x=>x.id===o.id);
   if(i>=0)arr[i]=o;else arr.push(o);
-  persistLocal();if(!noRender)render();
+  persistLocal();if(!noRender)render();gSchedule();
 }
 async function removeDoc(kind,id){
   if(backend==='cloud'){try{await col.doc(id).delete();return}catch(e){goLocal()}}
-  state[kind]=state[kind].filter(x=>x.id!==id);persistLocal();render();
+  state[kind]=state[kind].filter(x=>x.id!==id);state.del=state.del||{};state.del[id]=Date.now();persistLocal();render();gSchedule();
 }
 async function saveCustom(){
   if(backend==='cloud'){try{await col.doc('settings').set({type:'settings',custom:state.custom,favs:state.favs});return}catch(e){goLocal()}}
-  persistLocal();
+  state.metaU=Date.now();persistLocal();gSchedule();
 }
 async function initCloud(){
   const c=window.claude;
@@ -1673,6 +1689,7 @@ function viewUstawienia(){
   SKIN_ORDER.forEach(ensureFont);
   const onoff=k=>seg(k,[['true',t('on')],['false',t('off')]]);
   return `<div><button class="ghost" data-action="goto" data-tab="${esc(prevTab)}">${t('back')}</button></div>
+  ${googleCard()}
   <section class="card">
     <h2>${t('settings')}</h2>
     <div class="set-row"><span class="set-l">${t('lang')}</span>${seg('lang',[['pl','Polski'],['en','English']])}</div>
@@ -2109,6 +2126,7 @@ async function updatePlanFromWorkout(w){
 
 /* ---------- zdarzenia ---------- */
 $('#tabs').addEventListener('click',e=>{const b=e.target.closest('[data-tab]');if(b)setTab(b.dataset.tab)});
+$('#sync').addEventListener('click',()=>{if(gOn())gSync(true)});
 $('#gear').addEventListener('click',()=>setTab(tab==='ustawienia'?prevTab:'ustawienia'));
 window.addEventListener('hashchange',()=>{const x=location.hash.slice(1);if(TABS.includes(x)&&x!==tab){tab=x;render()}});
 
@@ -2202,6 +2220,9 @@ app.addEventListener('click',async e=>{
   }
   else if(a==='hb-del'){if(!confirmClick(b,t('sure_delete')))return;await removeDoc('habits',b.dataset.id);toast(t('hb_deleted'))}
   else if(a==='mm-range'){mmRange=b.dataset.v;render()}
+  else if(a==='g-cid-save'){const v=($('#g-cid').value||'').trim();if(!/\.apps\.googleusercontent\.com$/.test(v)){toast(t('g_cid_bad'));return}prefs.gClientId=v;savePrefs();render();toast(t('g_cid_saved'))}
+  else if(a==='g-connect'||a==='g-sync')await gSync(true);
+  else if(a==='g-off'){if(!confirmClick(b,t('sure')))return;gDisconnect()}
   else if(a==='data-export')await exportBackup();
   else if(a==='data-import'){const f=$('#imp-file');if(f){f.value='';f.click()}}
   else if(a==='data-copy'){try{await navigator.clipboard.writeText(JSON.stringify(backupData()));prefs.lastBackup=Date.now();savePrefs();toast(t('data_copied'));render()}catch(e){toast('✕')}}
@@ -2318,6 +2339,106 @@ app.addEventListener('submit',async e=>{
   render();window.scrollTo(0,0);toast(t('measure_saved'));
 });
 
+/* ---------- synchronizacja z Dyskiem Google (plik w Twojej chmurze) ---------- */
+const GOOGLE_CLIENT_ID='254073442869-p2dajcgkg3qq4rh7h51q58pkmjjk2vdn.apps.googleusercontent.com';   // ← tu można wpisać Client ID z Google Cloud (albo podać go w Ustawieniach)
+const G_FILE='repsody-dane.json',G_SCOPE='https://www.googleapis.com/auth/drive.file openid email';
+let gTok=null,gTokExp=0,gFileId=null,gSyncing=false,gSyncT=null,gState='';
+(function(){const k=lsGet('gym-gtok');if(k&&k.e>Date.now()){gTok=k.t;gTokExp=k.e}})();
+function gClientId(){return String(prefs.gClientId||GOOGLE_CLIENT_ID||'').trim()}
+function gOn(){return !!(prefs.gConnected&&gClientId()&&backend!=='cloud')}
+function loadGis(){return new Promise((res,rej)=>{if(window.google&&google.accounts&&google.accounts.oauth2)return res();const sc=document.createElement('script');sc.src='https://accounts.google.com/gsi/client';sc.async=true;sc.onload=()=>res();sc.onerror=()=>rej(new Error('gis'));document.head.appendChild(sc)})}
+async function gAuth(){
+  await loadGis();
+  return new Promise((res,rej)=>{
+    let tc;
+    try{tc=google.accounts.oauth2.initTokenClient({client_id:gClientId(),scope:G_SCOPE,
+      callback:r=>{if(!r||r.error){rej(r||{});return}gTok=r.access_token;gTokExp=Date.now()+((+r.expires_in||3600)-60)*1000;lsSet('gym-gtok',{t:gTok,e:gTokExp});res(gTok)},
+      error_callback:e=>rej(e||{})})}catch(e){rej(e);return}
+    tc.requestAccessToken({prompt:prefs.gConnected?'':'consent',login_hint:prefs.gEmail||undefined});
+  });
+}
+async function gFetch(url,opt){opt=opt||{};const r=await fetch(url,Object.assign({},opt,{headers:Object.assign({Authorization:'Bearer '+gTok},opt.headers||{})}));if(r.status===401){gTok=null;try{localStorage.removeItem('gym-gtok')}catch(e){}throw new Error('auth')}if(r.status===404)throw new Error('404');if(!r.ok)throw new Error('http '+r.status);return r}
+async function gFindFile(){const q=encodeURIComponent("name='"+G_FILE+"' and trashed=false");const j=await (await gFetch('https://www.googleapis.com/drive/v3/files?q='+q+'&spaces=drive&orderBy=modifiedTime%20desc&fields=files(id)')).json();return j.files&&j.files[0]?j.files[0].id:null}
+async function gUpload(id,data){
+  const body=JSON.stringify(data);
+  if(id){await gFetch('https://www.googleapis.com/upload/drive/v3/files/'+id+'?uploadType=media',{method:'PATCH',headers:{'Content-Type':'application/json'},body});return id}
+  const bnd='repsody'+Date.now(),meta={name:G_FILE,mimeType:'application/json',description:'Repsody'};
+  const mp='--'+bnd+'\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n'+JSON.stringify(meta)+'\r\n--'+bnd+'\r\nContent-Type: application/json\r\n\r\n'+body+'\r\n--'+bnd+'--';
+  const j=await (await gFetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id',{method:'POST',headers:{'Content-Type':'multipart/related; boundary='+bnd},body:mp})).json();
+  return j.id;
+}
+function mergeStates(a,b){
+  const out=normalize({});
+  out.del=Object.assign({},a.del||{});Object.entries(b.del||{}).forEach(([k,v])=>{if(!out.del[k]||out.del[k]<v)out.del[k]=v});
+  for(const k of ['workouts','body','plans','habits']){
+    const m=new Map();
+    [...(a[k]||[]),...(b[k]||[])].forEach(o=>{if(!o||!o.id)return;const c=m.get(o.id);if(!c||(o.u||0)>(c.u||0))m.set(o.id,o)});
+    out[k]=[...m.values()].filter(o=>!(out.del[o.id]&&out.del[o.id]>=(o.u||0)));
+  }
+  const act=out.plans.filter(p=>p.active).sort((x,y)=>(y.u||0)-(x.u||0));act.slice(1).forEach(p=>p.active=false);
+  const ma=a.metaU||0,mb=b.metaU||0,src=mb>ma?b:a;
+  out.favs=(src.favs||[]).slice();out.metaU=Math.max(ma,mb);
+  const cm=new Map();[...(a.custom||[]),...(b.custom||[])].forEach(c=>cm.set(c.name,c));out.custom=[...cm.values()];
+  const lim=Date.now()-180*DAY;Object.keys(out.del).forEach(k=>{if(out.del[k]<lim)delete out.del[k]});
+  return out;
+}
+function setG(s){gState=s;renderChrome();const c=document.getElementById('g-status');if(c)c.textContent=gStatusTxt()}
+function gStatusTxt(){
+  if(gState==='syncing')return t('g_syncing');
+  if(gState==='needtap')return t('g_needtap');
+  if(gState==='offline')return t('g_offline');
+  if(gState==='error')return t('g_error');
+  return prefs.gLast?t('g_last',agoTxt(prefs.gLast)+' '+pad(new Date(prefs.gLast).getHours())+':'+pad(new Date(prefs.gLast).getMinutes())):t('g_connected');
+}
+async function gSync(interactive){
+  if(gSyncing||!gClientId()||backend==='cloud')return;
+  if(!navigator.onLine){setG('offline');return}
+  gSyncing=true;setG('syncing');
+  try{
+    if(!gTok||Date.now()>gTokExp){if(!interactive){gSyncing=false;setG('needtap');return}await gAuth()}
+    const first=!prefs.gConnected;
+    if(!prefs.gEmail){try{const u=await (await gFetch('https://www.googleapis.com/oauth2/v3/userinfo')).json();prefs.gEmail=u.email||''}catch(e){}}
+    prefs.gConnected=true;savePrefs();
+    gFileId=gFileId||prefs.gFileId||null;
+    let remote=null;
+    if(!gFileId)gFileId=await gFindFile();
+    if(gFileId){try{remote=await (await gFetch('https://www.googleapis.com/drive/v3/files/'+gFileId+'?alt=media')).json()}catch(e){if(e.message==='404'){gFileId=null;remote=null;gFileId=await gFindFile();if(gFileId)remote=await (await gFetch('https://www.googleapis.com/drive/v3/files/'+gFileId+'?alt=media')).json()}else throw e}}
+    const rs=remote&&remote.app==='repsody'&&remote.data?normalize(remote.data):normalize({});
+    state=mergeStates(state,rs);persistLocal();
+    gFileId=await gUpload(gFileId,{app:'repsody',version:2,updated:new Date().toISOString(),data:state});
+    prefs.gFileId=gFileId;prefs.gLast=Date.now();savePrefs();
+    gSyncing=false;setG('ok');render();
+    if(first)toast(t('g_first_ok'));
+  }catch(e){gSyncing=false;setG(e&&e.message==='auth'?'needtap':'error');if(interactive&&e&&(e.type==='popup_closed'||e.error==='access_denied'))toast(t('g_cancelled'))}
+}
+function gSchedule(){if(!gOn())return;clearTimeout(gSyncT);gSyncT=setTimeout(()=>gSync(false),2500)}
+function gDisconnect(){try{if(gTok&&window.google&&google.accounts&&google.accounts.oauth2)google.accounts.oauth2.revoke(gTok,()=>{})}catch(e){}gTok=null;try{localStorage.removeItem('gym-gtok')}catch(e){}gFileId=null;prefs.gConnected=false;prefs.gEmail='';prefs.gFileId='';prefs.gLast=0;savePrefs();gState='';render()}
+window.addEventListener('online',()=>{if(gOn()&&gTok&&Date.now()<gTokExp)gSchedule()});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&gOn()&&gTok&&Date.now()<gTokExp)gSchedule()});
+function googleCard(){
+  const cid=gClientId();
+  if(backend==='cloud')return '';
+  if(!cid)return `<section class="card">
+    <h3>${t('g_h')}</h3>
+    <p class="small muted" style="margin:4px 0 10px">${t('g_need_id')}</p>
+    <label for="g-cid">${t('g_cid')}</label>
+    <div class="row" style="flex-wrap:nowrap"><input id="g-cid" placeholder="123…apps.googleusercontent.com" autocomplete="off"><button data-action="g-cid-save" style="flex:none">${t('hb_save')}</button></div>
+  </section>`;
+  if(!prefs.gConnected)return `<section class="card">
+    <h3>${t('g_h')}</h3>
+    <p class="small muted" style="margin:4px 0 12px">${t('g_p')}</p>
+    <button class="g-btn" data-action="g-connect"><span class="g-logo" aria-hidden="true">G</span>${t('g_connect')}</button>
+    <p class="small muted" style="margin:10px 0 0">${t('g_privacy')}</p>
+  </section>`;
+  return `<section class="card">
+    <h3>${t('g_h')}</h3>
+    <p style="margin:6px 0 2px"><b>✓ ${t('g_as',esc(prefs.gEmail||'Google'))}</b></p>
+    <p class="small muted" style="margin:0 0 12px" id="g-status">${gStatusTxt()}</p>
+    <div class="row"><button class="primary-sm" data-action="g-sync">${t('g_sync_now')}</button><button class="ghost small" data-action="g-off">${t('g_disconnect')}</button></div>
+    <p class="small muted" style="margin:10px 0 0">${t('g_how')}</p>
+  </section>`;
+}
+
 /* ---------- kopia zapasowa ---------- */
 function backupData(){return{app:'repsody',version:1,exported:new Date().toISOString(),data:{workouts:state.workouts,body:state.body,plans:state.plans,custom:state.custom,favs:state.favs,habits:state.habits},prefs:Object.assign({},prefs)}}
 function agoTxt(ts){const d=Math.floor((parseD(today())-parseD(ymd(new Date(ts))))/DAY);return d<=0?t('ago_today'):d===1?t('ago_yday'):t('ago_days',d)}
@@ -2340,7 +2461,8 @@ async function importBackup(obj){
 }
 async function wipeAll(){
   if(backend==='cloud'){for(const k of ['workouts','body','plans','habits'])for(const o of state[k].slice())await removeDoc(k,o.id);state.custom=[];state.favs=[];await saveCustom()}
-  state=normalize({});persistLocal();draft=newDraft();persistDraft();render();toast(t('data_wiped'));
+  const del=Object.assign({},state.del||{}),now=Date.now();['workouts','body','plans','habits'].forEach(k=>state[k].forEach(o=>del[o.id]=now));
+  state=normalize({del,metaU:now});persistLocal();draft=newDraft();persistDraft();render();gSchedule();toast(t('data_wiped'));
 }
 function dataCard(){
   const lb=prefs.lastBackup,old=!lb||Date.now()-lb>30*DAY;
@@ -2381,6 +2503,7 @@ function start(data){
   const h0=location.hash.slice(1),h=h0==='pomoc'?'cialo':h0;tab=TABS.includes(h)?h:'trening';
   render();
   initCloud();
+  if(prefs.gConnected&&gClientId())setTimeout(()=>gSync(false),800);
 }
 const hot=window.claude&&window.claude.hot;
 if(hot&&typeof hot.snapshot==='function'){try{hot.snapshot(()=>({draft,planDraft}))}catch(e){}}

@@ -1,5 +1,5 @@
 /* Repsody – praca offline. Zmień numer wersji przy większych zmianach, żeby telefony pobrały nowe pliki. */
-const CACHE = 'repsody-v2';
+const CACHE = 'repsody-v3';
 const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png', './favicon-32.png'];
 
 self.addEventListener('install', e => {
@@ -11,6 +11,11 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', e => {
   const req = e.request;
   if (req.method !== 'GET') return;
+  const url = new URL(req.url);
+  // Logowanie Google i Dysk Google zawsze bezpośrednio z internetu – nigdy z pamięci.
+  const sameOrigin = url.origin === self.location.origin;
+  const isFont = url.hostname === 'fonts.googleapis.com' || url.hostname === 'fonts.gstatic.com';
+  if (!sameOrigin && !isFont) return;
   // Strona: najpierw internet (żeby dostać najnowszą wersję), bez sieci – zapisana kopia.
   if (req.mode === 'navigate') {
     e.respondWith(
