@@ -31,6 +31,7 @@
   --good-soft:#DCF1E5;
   --display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
   --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --s1:#D2202F;--s2:#1F4FA8;--s3:#F2C230;--s4:#1E8A4C;--s5:#F4F4F2;--r:10px;--bg-img:none;
   color-scheme:light;
 }
 @media (prefers-color-scheme: dark){
@@ -47,7 +48,7 @@
 }
 *{box-sizing:border-box}
 html,body{margin:0}
-body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased}
+body{background-color:var(--bg);background-image:var(--bg-img);background-repeat:no-repeat;background-attachment:fixed;color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased}
 .wrap{max-width:600px;margin:0 auto;padding:0 16px 64px}
 header.top{padding:22px 0 0}
 .brand{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap}
@@ -58,12 +59,12 @@ h1{font-family:var(--display);font-weight:800;font-size:52px;line-height:.9;lett
 .sync i{width:8px;height:8px;border-radius:50%;background:var(--muted);display:inline-block}
 .sync.ok i{background:var(--good)}
 .sync.warn i{background:var(--accent)}
-nav.tabs{position:sticky;top:0;z-index:5;background:var(--bg);display:flex;gap:4px;padding:12px 0 10px;margin-bottom:6px;overflow-x:auto;scrollbar-width:none}
+nav.tabs{position:sticky;top:0;z-index:5;background:var(--nav-bg,var(--bg));-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);display:flex;gap:4px;padding:12px 0 10px;margin-bottom:6px;overflow-x:auto;scrollbar-width:none}
 nav.tabs::-webkit-scrollbar{display:none}
 nav.tabs button{flex:1 1 auto;min-width:0;font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:.5px;text-transform:uppercase;background:transparent;color:var(--muted);border:0;border-bottom:3px solid var(--line);padding:8px 2px 6px;cursor:pointer;border-radius:0;min-height:40px}
 nav.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
 .stack{display:flex;flex-direction:column;gap:12px}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px}
 .card h2,.card h3{margin:0;font-family:var(--display);font-weight:700;text-transform:uppercase;letter-spacing:.4px}
 .card h2{font-size:26px}
 .card h3{font-size:22px;line-height:1.1}
@@ -94,7 +95,7 @@ button.danger-armed{background:var(--accent-soft);color:var(--accent);border-col
 .badge.pr{background:var(--good-soft);color:var(--good)}
 .badge.e{color:var(--muted);font-weight:500}
 .tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-.tile{background:var(--bg);border-radius:8px;padding:10px 12px}
+.tile{background:var(--bg);border-radius:calc(var(--r) * .8);padding:10px 12px}
 .tile .k{font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.3px}
 .tile .v{font-family:var(--display);font-weight:800;font-size:34px;line-height:1.05;font-variant-numeric:tabular-nums}
 .tile .v small{font-family:var(--body);font-size:14px;font-weight:500;color:var(--muted);margin-left:2px}
@@ -220,7 +221,7 @@ button.link{background:none;border:0;padding:0;min-height:0;font:inherit;font-we
 .hint.warn{background:var(--accent-soft);border-left-color:var(--accent)}
 .mgrid{display:grid;grid-template-columns:1fr;gap:10px;margin-top:12px}
 @media (min-width:560px){.mgrid{grid-template-columns:1fr 1fr}}
-.mcard{background:var(--bg);border-radius:8px;padding:10px 12px 6px}
+.mcard{background:var(--bg);border-radius:calc(var(--r) * .8);padding:10px 12px 6px}
 .mhead{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
 .mk{display:block;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.3px;color:var(--muted)}
 .mv{font-family:var(--display);font-weight:800;font-size:30px;line-height:1.05}
@@ -322,6 +323,19 @@ svg.star{width:20px;height:20px;fill:currentColor}
 .pk-fav[aria-pressed="false"] svg.star{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round;color:var(--muted);opacity:.55}
 .favchip svg.star.big{width:38px;height:61px;color:#E8A317}
 .favchip[aria-selected="true"] svg.star.big{color:#E8A317}
+.skin-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media (max-width:480px){.skin-grid{grid-template-columns:repeat(2,1fr)}}
+.skin-card{display:flex;flex-direction:column;align-items:stretch;text-align:left;gap:2px;padding:6px 6px 10px;min-height:0;border:2px solid var(--line);border-radius:calc(var(--r) + 2px);background:var(--surface)}
+.skin-card[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+.sk-prev{position:relative;display:block;height:86px;border-radius:calc(var(--r) * .7);overflow:hidden;margin-bottom:6px;box-shadow:inset 0 0 0 1px rgba(127,127,127,.25)}
+.sk-bar{position:absolute;left:8px;right:8px;top:8px;height:4px;border-radius:2px}
+.sk-aa{position:absolute;left:10px;top:16px;font-size:30px;font-weight:700;line-height:1}
+.sk-card{position:absolute;left:8px;right:8px;bottom:8px;height:24px;border:1px solid;display:flex;align-items:center;gap:6px;padding:0 6px}
+.sk-card i{display:block;height:8px;border-radius:4px}
+.sk-card i:first-child{width:38%}
+.sk-card i:last-child{flex:1;opacity:.9}
+.sk-name{font-weight:700;font-size:15px;padding:0 4px}
+.sk-desc{font-size:12px;color:var(--muted);font-weight:400;padding:0 4px;line-height:1.3}
 .toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:12px 16px;border-radius:10px;font-weight:600;font-size:15px;max-width:calc(100% - 32px);box-shadow:0 6px 24px rgba(0,0,0,.25);z-index:20}
 .toast[hidden]{display:none}
 @media (prefers-reduced-motion:no-preference){
@@ -340,9 +354,7 @@ svg.star{width:20px;height:20px;fill:currentColor}
         <button class="gear" id="gear" aria-label="Ustawienia" aria-pressed="false"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M19.4 13a7.6 7.6 0 0 0 0-2l2.1-1.6-2-3.5-2.5 1a7.4 7.4 0 0 0-1.7-1L15 3.3h-4l-.4 2.6a7.4 7.4 0 0 0-1.7 1l-2.5-1-2 3.5L6.6 11a7.6 7.6 0 0 0 0 2l-2.1 1.6 2 3.5 2.5-1a7.4 7.4 0 0 0 1.7 1l.4 2.6h4l.4-2.6a7.4 7.4 0 0 0 1.7-1l2.5 1 2-3.5zM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z" transform="translate(-1 0)"/></svg></button>
       </div>
     </div>
-    <div class="plates-stripe" aria-hidden="true">
-      <span style="background:#D2202F"></span><span style="background:#1F4FA8"></span><span style="background:#F2C230"></span><span style="background:#1E8A4C"></span><span style="background:#F4F4F2;border:1px solid var(--line)"></span>
-    </div>
+    <div class="plates-stripe" aria-hidden="true"><span style="background:var(--s1)"></span><span style="background:var(--s2)"></span><span style="background:var(--s3)"></span><span style="background:var(--s4)"></span><span style="background:var(--s5);box-shadow:inset 0 0 0 1px var(--line)"></span></div>
   </header>
   <nav class="tabs" role="tablist" id="tabs">
     <button role="tab" id="tab-trening" data-tab="trening">Trening</button>
@@ -367,11 +379,64 @@ const LS_DATA='gym-data-v1', LS_DRAFT='gym-draft-v1', LS_PREFS='gym-prefs-v1';
 const TABS=['trening','plany','postep','historia','cialo','pomoc','ustawienia'];
 
 /* ---------- ustawienia ---------- */
-const DEFAULT_PREFS={lang:'pl',w:'kg',l:'cm',rest:180,sound:true,vib:true,auto:false,pickEq:'all',calc:{sex:'m',age:'',height:'',weight:'',pal:1.55,goal:0,formula:'mifflin'}};
+const DEFAULT_PREFS={lang:'pl',w:'kg',l:'cm',rest:180,sound:true,vib:true,auto:false,pickEq:'all',skin:'normal',calc:{sex:'m',age:'',height:'',weight:'',pal:1.55,goal:0,formula:'mifflin'}};
 function lsGet(k){try{const v=localStorage.getItem(k);return v?JSON.parse(v):null}catch(e){return null}}
 function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
 let prefs=Object.assign({},DEFAULT_PREFS,lsGet(LS_PREFS)||{});prefs.calc=Object.assign({},DEFAULT_PREFS.calc,prefs.calc||{});
 function savePrefs(){lsSet(LS_PREFS,prefs)}
+
+/* ---------- motywy wyglądu ---------- */
+const SKINS={
+  normal:{name:['Normalny','Normal'],desc:['Jasny lub ciemny, jak telefon','Light or dark, like your phone'],
+    bg:'#E8EBEE',surface:'#FFFFFF',ink:'#15181C',line:'#D2D7DD',accent:'#C8102E',font:'Big Shoulders Display',stripe:['#D2202F','#1F4FA8','#F2C230','#1E8A4C','#F4F4F2'],meta:'#C8102E'},
+  dark:{name:['Ciemny','Dark'],desc:['Grafit i czerwień, zawsze ciemny','Graphite and red, always dark'],scheme:'dark',
+    bg:'#0B0C0E',surface:'#16181C',ink:'#F2F3F5',muted:'#9198A1',line:'#262A30',accent:'#FF3B4E',accentInk:'#16070A',accentSoft:'#3A1419',good:'#3DD68C',goodSoft:'#10301F',
+    font:'Big Shoulders Display',stripe:['#FF3B4E','#3B6FE0','#F2C230','#2FB36B','#E6E8EB'],meta:'#0B0C0E',r:'10px'},
+  fire:{name:['Ogień','Fire'],desc:['Żar, pomarańcz i plakatowe litery','Embers, orange and poster letters'],scheme:'dark',
+    bg:'#140D0A',surface:'#22150F',ink:'#FFF1E6',muted:'#C2A08A',line:'#3A261C',accent:'#FF6A1A',accentInk:'#1A0A02',accentSoft:'#43200F',good:'#7BD88F',goodSoft:'#1D3322',
+    font:'Bebas Neue',fontQ:'Bebas+Neue',noSynth:true,stripe:['#FFD23F','#FF9F1C','#FF6A1A','#E63E11','#9B1D0A'],meta:'#140D0A',r:'8px',
+    bgImg:'radial-gradient(120% 60% at 50% -10%,rgba(255,106,26,.28),transparent 60%)',navBg:'rgba(20,13,10,.88)'},
+  rock:{name:['Skała','Rock'],desc:['Kamień, rdza i ostre krawędzie','Stone, rust and sharp edges'],
+    bg:'#D8D4CD',surface:'#EEEBE6',ink:'#1E1C1A',muted:'#5F5A54',line:'#BDB7AE',accent:'#A4492A',accentInk:'#FFFFFF',accentSoft:'#E8D3C8',good:'#3F6E3A',goodSoft:'#D7E4D2',
+    font:'Oswald',fontQ:'Oswald:wght@600;700',stripe:['#3A3632','#7A736B','#A4492A','#C9A27E','#E9E4DC'],meta:'#D8D4CD',r:'3px'},
+  wind:{name:['Wiatr','Wind'],desc:['Lekki, jasny, morska mięta','Light and airy, sea-mint'],
+    bg:'#EEF4F6',surface:'#FFFFFF',ink:'#12313A',muted:'#557079',line:'#D3E1E5',accent:'#0E8B86',accentInk:'#FFFFFF',accentSoft:'#D4F0EE',good:'#2E8B57',goodSoft:'#DDF2E6',
+    font:'Barlow Condensed',fontQ:'Barlow+Condensed:wght@600;700',stripe:['#CDEBF2','#9ED9E3','#5FC4C9','#1AA6A0','#0E8B86'],meta:'#EEF4F6',r:'16px',
+    bgImg:'linear-gradient(180deg,#E3F1F5 0%,#EEF4F6 40%)',navBg:'rgba(238,244,246,.9)'},
+  sea:{name:['Morze','Sea'],desc:['Głębia granatu i turkus','Deep navy and turquoise'],scheme:'dark',
+    bg:'#061A2B',surface:'#0C2740',ink:'#E6F4FF',muted:'#8FB0C8',line:'#173A57',accent:'#2FD3E6',accentInk:'#04131F',accentSoft:'#0D3B52',good:'#5EE6A8',goodSoft:'#0F3A33',
+    font:'Saira Condensed',fontQ:'Saira+Condensed:wght@700;800',stripe:['#0B3D63','#1468A0','#1E90C9','#2FD3E6','#BDF4FA'],meta:'#061A2B',r:'12px',
+    bgImg:'linear-gradient(180deg,#0A2741 0%,#061A2B 55%)',navBg:'rgba(6,26,43,.9)'}
+};
+const SKIN_ORDER=['normal','dark','fire','rock','wind','sea'];
+(function buildSkinCss(){
+  let css='';
+  SKIN_ORDER.filter(k=>k!=='normal').forEach(k=>{
+    const s=SKINS[k];
+    css+=`html:root[data-skin="${k}"]{--bg:${s.bg};--surface:${s.surface};--ink:${s.ink};--muted:${s.muted};--line:${s.line};--accent:${s.accent};--accent-ink:${s.accentInk};--accent-soft:${s.accentSoft};--good:${s.good};--good-soft:${s.goodSoft};--display:"${s.font}","Big Shoulders Display","Arial Narrow",Impact,sans-serif;--r:${s.r};--s1:${s.stripe[0]};--s2:${s.stripe[1]};--s3:${s.stripe[2]};--s4:${s.stripe[3]};--s5:${s.stripe[4]};--bg-img:${s.bgImg||'none'};--nav-bg:${s.navBg||s.bg};color-scheme:${s.scheme||'light'}${s.noSynth?';font-synthesis:none':''}}\n`;
+  });
+  const el=document.createElement('style');el.id='skins';el.textContent=css;document.head.appendChild(el);
+})();
+const fontsLoaded=new Set();
+function ensureFont(k){const s=SKINS[k];if(!s||!s.fontQ||fontsLoaded.has(k))return;fontsLoaded.add(k);const l=document.createElement('link');l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family='+s.fontQ+'&display=swap';document.head.appendChild(l)}
+function applySkin(){
+  const k=SKINS[prefs.skin]?prefs.skin:'normal';
+  if(k==='normal')document.documentElement.removeAttribute('data-skin');else document.documentElement.setAttribute('data-skin',k);
+  ensureFont(k);
+  const m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',SKINS[k].meta);
+}
+function skinCard(k){
+  const s=SKINS[k],on=(prefs.skin||'normal')===k;
+  const grad='linear-gradient(90deg,'+s.stripe.map((c,i)=>c+' '+(i*20)+'% '+((i+1)*20)+'%').join(',')+')';
+  return `<button class="skin-card" data-action="pref" data-k="skin" data-v="${k}" aria-pressed="${on}">
+    <span class="sk-prev" style="background:${s.bg};color:${s.ink}">
+      <span class="sk-bar" style="background:${grad}"></span>
+      <span class="sk-aa" style="font-family:'${s.font}','Big Shoulders Display',Impact,sans-serif">Aa</span>
+      <span class="sk-card" style="background:${s.surface};border-color:${s.line};border-radius:${s.r?Math.min(parseInt(s.r),10):8}px"><i style="background:${s.accent}"></i><i style="background:${s.line}"></i></span>
+    </span>
+    <span class="sk-name">${on?'✓ ':''}${s.name[L()]}</span><span class="sk-desc">${s.desc[L()]}</span>
+  </button>`;
+}
 
 /* ---------- tłumaczenia ---------- */
 const STR={
@@ -464,6 +529,7 @@ timer_note:['Przy zablokowanym ekranie telefon może wstrzymać dźwięk. Czas l
 about:['O aplikacji','About'],about_p:['Treningi, plany i pomiary zapisują się {0}. Nikt inny ich nie widzi.','Workouts, plans and measurements are saved {0}. Nobody else can see them.'],
 about_local:['w tej przeglądarce, na tym urządzeniu','in this browser, on this device'],about_cloud:['na Twoim koncie, w chmurze','to your account, in the cloud'],
 back:['← Wróć','← Back'],
+skin_h:['Wygląd','Appearance'],skin_p:['Motyw zmienia kolory i czcionkę nagłówków. Zmiana działa od razu.','A theme changes colours and the heading font. It applies instantly.'],
 install_h:['Aplikacja na telefonie','App on your phone'],install_btn:['Zainstaluj Repsody','Install Repsody'],
 installed:['Repsody jest zainstalowane i działa także bez internetu.','Repsody is installed and also works offline.'],
 install_ios:['iPhone: w Safari kliknij Udostępnij (kwadrat ze strzałką), potem „Do ekranu początkowego”.','iPhone: in Safari tap Share (square with an arrow), then “Add to Home Screen”.'],
@@ -1210,11 +1276,17 @@ function viewPomoc(){
 function prefGet(k){return k.startsWith('calc.')?prefs.calc[k.slice(5)]:prefs[k]}
 function seg(k,opts){return `<div class="seg" role="group">${opts.map(([v,l])=>`<button data-action="pref" data-k="${k}" data-v="${v}" aria-pressed="${String(prefGet(k))===String(v)}">${l}</button>`).join('')}</div>`}
 function viewUstawienia(){
+  SKIN_ORDER.forEach(ensureFont);
   const onoff=k=>seg(k,[['true',t('on')],['false',t('off')]]);
   return `<div><button class="ghost" data-action="goto" data-tab="${esc(prevTab)}">${t('back')}</button></div>
   <section class="card">
     <h2>${t('settings')}</h2>
     <div class="set-row"><span class="set-l">${t('lang')}</span>${seg('lang',[['pl','Polski'],['en','English']])}</div>
+  </section>
+  <section class="card">
+    <h3>${t('skin_h')}</h3>
+    <p class="small muted" style="margin:4px 0 12px">${t('skin_p')}</p>
+    <div class="skin-grid">${SKIN_ORDER.map(skinCard).join('')}</div>
   </section>
   <section class="card">
     <h3>${t('units')}</h3>
@@ -1601,6 +1673,7 @@ app.addEventListener('click',async e=>{
     if(k==='rest')v=+v;else if(v==='true'||v==='false')v=v==='true';
     prefs[k]=v;savePrefs();
     if(k==='w')convertDraft();
+    if(k==='skin')applySkin();
     if(k==='rest'&&timer.state==='idle')timer.dur=v;
     render();
   }
@@ -1704,6 +1777,7 @@ if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)&&!window.cl
 
 /* ---------- start ---------- */
 function start(data){
+  applySkin();
   if(data&&data.draft)draft=data.draft;
   if(data&&data.planDraft)planDraft=data.planDraft;
   if(!draft||!draft.exercises)draft=newDraft();
