@@ -280,7 +280,8 @@ body.has-timer .toast{bottom:96px}
 .kcal-big{font-family:var(--display);font-weight:800;font-size:56px;line-height:1;color:var(--accent)}
 .macro-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .macro-row>div{background:var(--bg);border-radius:8px;padding:8px 10px}
-.macro-row b{font-family:var(--display);font-size:24px}
+.macro-row b{font-family:var(--display);font-size:22px;white-space:nowrap}
+@media (max-width:480px){.macro-row{grid-template-columns:1fr;gap:6px}.macro-row>div{display:flex;justify-content:space-between;align-items:center}}
 .warnbox{margin-top:14px;background:var(--accent-soft);border-radius:8px;padding:10px 12px;font-size:14px}
 .warnbox p{margin:4px 0 0}
 svg.fig .b,svg.fig .m{fill:var(--muted);fill-opacity:.28}
@@ -472,7 +473,7 @@ g_cut:['Redukcja (−15%)','Fat loss (−15%)'],g_cut_s:['Łagodna redukcja (−
 bmr:['Podstawowa przemiana materii (PPM)','Basal metabolic rate (BMR)'],bmr_t:['Tyle spala organizm w spoczynku.','What your body burns at rest.'],
 tdee:['Utrzymanie wagi (CPM)','Maintenance (TDEE)'],tdee_t:['PPM × aktywność.','BMR × activity.'],target_kcal:['Twój cel','Your target'],kcal_day:['kcal / dzień','kcal / day'],
 macros:['Przykładowy podział makro','Example macro split'],protein:['Białko','Protein'],fat:['Tłuszcze','Fat'],carbs:['Węglowodany','Carbs'],
-macro_note:['Białko 2 g na kg masy ciała, tłuszcze 25% kalorii, reszta z węglowodanów.','Protein 2 g per kg of body weight, fat 25% of calories, the rest from carbs.'],
+macro_note:['<b>Białko: 1,6–2 g na każdy kg masy ciała</b> dziennie. Tyle zwykle wystarcza do budowy i utrzymania mięśni; więcej raczej nie daje dodatkowych efektów. Tłuszcze to ok. 25% kalorii, a resztę uzupełniają węglowodany (im więcej białka, tym mniej węglowodanów).','<b>Protein: 1.6–2 g per kg of body weight</b> per day. That is usually enough to build and keep muscle; more rarely adds extra benefit. Fat is about 25% of calories and carbs make up the rest (the more protein, the fewer carbs).'],
 fill_in:['Uzupełnij wiek, wzrost i wagę, a pokażę wynik.','Fill in age, height and weight to see the result.'],
 below_bmr:['Ten cel jest poniżej Twojej PPM. Nie schodź tak nisko bez opieki dietetyka.','This target is below your BMR. Do not go that low without a dietitian.'],
 kcal_warn_h:['To tylko punkt startowy (±10–15%)','This is only a starting point (±10–15%)'],
@@ -1151,8 +1152,8 @@ function calcResult(){
   if(c.formula==='hb')bmr=c.sex==='f'?655.1+9.563*w+1.85*h-4.676*age:66.5+13.75*w+5.003*h-6.75*age;
   else bmr=10*w+6.25*h-5*age+(c.sex==='f'?-161:5);
   const tdee=bmr*(+c.pal||1.55),target=tdee*(1+(+c.goal||0));
-  const p=2*w,f=target*0.25/9,cb=Math.max(0,(target-p*4-f*9)/4);
-  return{bmr,tdee,target,p,f,cb,fromBody:!(wIn>0)&&!!lw};
+  const pLo=1.6*w,pHi=2*w,f=target*0.25/9,cbHi=Math.max(0,(target-pLo*4-f*9)/4),cbLo=Math.max(0,(target-pHi*4-f*9)/4);
+  return{bmr,tdee,target,pLo,pHi,f,cbLo,cbHi,fromBody:!(wIn>0)&&!!lw};
 }
 function calcOut(){
   const r=calcResult();
@@ -1166,9 +1167,9 @@ function calcOut(){
     </div>
     <h4 class="sub">${t('macros')}</h4>
     <div class="macro-row">
-      <div><span class="mk">${t('protein')}</span><b class="num">${fmt(r.p,0)} g</b></div>
+      <div><span class="mk">${t('protein')}</span><b class="num">${fmt(r.pLo,0)}–${fmt(r.pHi,0)} g</b></div>
       <div><span class="mk">${t('fat')}</span><b class="num">${fmt(r.f,0)} g</b></div>
-      <div><span class="mk">${t('carbs')}</span><b class="num">${fmt(r.cb,0)} g</b></div>
+      <div><span class="mk">${t('carbs')}</span><b class="num">${fmt(r.cbLo,0)}–${fmt(r.cbHi,0)} g</b></div>
     </div>
     <p class="small muted" style="margin:6px 0 0">${t('macro_note')}${r.fromBody?' '+t('weight_from_body'):''}</p>`;
 }
