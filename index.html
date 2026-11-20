@@ -534,7 +534,7 @@ const LS_DATA='gym-data-v1', LS_DRAFT='gym-draft-v1', LS_PREFS='gym-prefs-v1';
 const TABS=['trening','plany','postep','historia','cialo','kamienie','ustawienia'];
 
 /* ---------- ustawienia ---------- */
-const DEFAULT_PREFS={lang:'pl',w:'kg',l:'cm',rest:180,sound:true,vib:true,auto:false,pickEq:'all',skin:'normal',restCustom:0,calc:{sex:'m',age:'',height:'',weight:'',pal:1.55,goal:0,formula:'mifflin'}};
+const DEFAULT_PREFS={lang:'pl',w:'kg',l:'cm',rest:180,sound:true,vib:true,auto:false,awake:true,pickEq:'all',skin:'normal',restCustom:0,calc:{sex:'m',age:'',height:'',weight:'',pal:1.55,goal:0,formula:'mifflin'}};
 function lsGet(k){try{const v=localStorage.getItem(k);return v?JSON.parse(v):null}catch(e){return null}}
 function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
 let prefs=Object.assign({},DEFAULT_PREFS,lsGet(LS_PREFS)||{});prefs.calc=Object.assign({},DEFAULT_PREFS.calc,prefs.calc||{});
@@ -677,7 +677,7 @@ minus15:['Odejmij 15 sekund','Subtract 15 seconds'],plus15:['Dodaj 15 sekund','A
 rest_over:['Koniec przerwy! Czas na serię.','Rest is over! Time for your next set.'],go:['Czas na serię!','Time to lift!'],ok:['OK','OK'],rest_len:['Długość przerwy','Rest length'],
 lang:['Język','Language'],units:['Jednostki','Units'],w_unit:['Ciężar','Weight'],l_unit:['Obwody','Measurements'],
 units_note:['Zapisane dane przeliczają się automatycznie, nic nie ginie.','Saved data is converted automatically, nothing is lost.'],
-rest_h:['Przerwa między seriami','Rest between sets'],rest_default:['Domyślny czas','Default time'],sound:['Dźwięk na koniec','Sound at the end'],
+rest_h:['Przerwa między seriami','Rest between sets'],rest_default:['Domyślny czas','Default time'],sound:['Dźwięk na koniec','Sound at the end'],awake:['Nie wygaszaj ekranu w trakcie treningu','Keep screen on during workout'],
 vib:['Wibracja na koniec','Vibration at the end'],auto:['Włączaj przerwę po wpisaniu powtórzeń','Start rest after entering reps'],
 on:['Wł.','On'],off:['Wył.','Off'],
 timer_note:['Przy zablokowanym ekranie telefon może wstrzymać dźwięk. Czas liczy się dalej, a po odblokowaniu zobaczysz, ile zostało.','With the screen locked your phone may hold back the sound. The time keeps counting and you will see what is left when you unlock.'],
@@ -896,6 +896,14 @@ let state=normalize(lsGet(LS_DATA));
 function newDraft(){return{id:null,mode:null,date:today(),title:'',wu:wU(),startedAt:null,durMin:'',exercises:[]}}
 let sessionMin=false,lastSummary=null;
 function isLive(){return draft.mode==='live'}
+let wakeL=null,wakeBusy=false;
+function wakeSync(){
+  if(!('wakeLock' in navigator))return;
+  const want=prefs.awake!==false&&isLive()&&!document.hidden&&!NATIVE;
+  if(want&&!wakeL&&!wakeBusy){wakeBusy=true;navigator.wakeLock.request('screen').then(l=>{wakeL=l;l.addEventListener('release',()=>{if(wakeL===l)wakeL=null})}).catch(()=>{}).finally(()=>{wakeBusy=false})}
+  else if(!want&&wakeL){const l=wakeL;wakeL=null;l.release().catch(()=>{})}
+}
+setInterval(wakeSync,3000);
 let draft=lsGet(LS_DRAFT)||newDraft();
 let tab='trening', prevTab='trening', progEx=null, demo=false, demoData=null;
 let planDraft=null, planOpen=new Set();
@@ -1718,6 +1726,7 @@ function viewUstawienia(){
     <div class="set-row"><span class="set-l">${t('sound')}</span>${onoff('sound')}</div>
     <div class="set-row"><span class="set-l">${t('vib')}</span>${onoff('vib')}</div>
     <div class="set-row"><span class="set-l">${t('auto')}</span>${onoff('auto')}</div>
+    ${'wakeLock' in navigator&&!NATIVE?`<div class="set-row"><span class="set-l">${t('awake')}</span>${onoff('awake')}</div>`:''}
     <p class="small muted" style="margin:8px 0 0">${t('timer_note')}</p>
   </section>
   ${dataCard()}
@@ -1813,6 +1822,7 @@ function finishTimer(){
   doneT=setTimeout(()=>{if(timer.state==='done'){timer.state='idle';renderTimer()}},8000);
 }
 document.addEventListener('visibilitychange',()=>{
+  wakeSync();
   if(document.hidden)return;
   if(RT&&timer.state==='run'){
     if(remaining()<=0){stopRest();renderTimer();return}
@@ -2075,7 +2085,7 @@ function renderChrome(){
   setSync(syncKey);
   const at=document.querySelector('#tabs [aria-selected="true"]');if(at&&at.scrollIntoView){const n=$('#tabs');const l=at.offsetLeft-n.offsetLeft,r=l+at.offsetWidth;if(l<n.scrollLeft||r>n.scrollLeft+n.clientWidth)n.scrollLeft=Math.max(0,l-24)}
 }
-function render(){
+function render(){setTimeout(wakeSync,0);
   renderChrome();
   const scrollY=window.scrollY;
   app.innerHTML=tab==='trening'?viewTrening():tab==='plany'?viewPlany():tab==='postep'?viewPostep():tab==='historia'?viewHistoria():tab==='cialo'?viewCialo()+calcCard():tab==='kamienie'?viewKamienie():viewUstawienia();
